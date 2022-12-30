@@ -1,3 +1,5 @@
+cloudfront can integrated with alb, s3 and ec2.
+
 access s3 bucket with cloudfront.
 
 - create the bucket as public and upload the files that you want to access from the browser
