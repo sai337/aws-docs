@@ -5,5 +5,6 @@ WAF can be integrated with  Amazon CloudFront, the Application Load Balancer (AL
 - add the resource which cloudfront distribution id.
 - next in add rules and rulegroups, choose the existing rules from the dropdown or create your custom new rules(ACL).
 - ip sets: Ip sets are created to restrict the users who are allowed to access from that ip range.
-- 
+- rule groups: 
+
 
