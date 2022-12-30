@@ -27,6 +27,6 @@ access s3 bucket with cloudfront.
     ]
 }
 
-- create the public and private key , add the public to the list of public cert
+- create the public and private key using openssl, add the public to the list of public cert
 - add the cert to the keygroups, once added in the behavior configuration choose the trusted key groups and choose the key group created earlier.
 - choose the cache policy - for s3 caching optimized 
