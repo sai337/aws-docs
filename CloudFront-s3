@@ -1,0 +1,30 @@
+access s3 bucket with cloudfront.
+
+- create the bucket as public and upload the files that you want to access from the browser
+- create the cloudfront distribution and add the s3 bucket as origin 
+- create the oai- origin access identity(like an in iam role to access the s3 with cloudfront)
+- once distribution created, add the below bucket policy to s3 to allow the distribution access the objects in s3.
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowCloudFrontServicePrincipalReadOnly",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "cloudfront.amazonaws.com"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::s3bucketname/*",
+            "Condition": {
+                "StringEquals": {
+                    "AWS:SourceArn": "arn:aws:cloudfront::accountid:distribution/distributionid"
+                }
+            }
+        }
+    ]
+}
+
+- create the public and private key , add the public to the list of public cert
+- add the cert to the keygroups, once added in the behavior configuration choose the trusted key groups and choose the key group created earlier.
+- choose the cache policy - for s3 caching optimized 
