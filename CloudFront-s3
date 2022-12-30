@@ -39,5 +39,13 @@ openssl rsa -pubout -in private_key.pem -out public_key.pem
 <Code>MissingKey</Code>
 <Message>Missing Key-Pair-Id query parameter or cookie value</Message>
 </Error>
-
-- 
+ the cloudfront distribution you are trying to access is not singed one
+ 
+- in order to make signed below are the process:
+   1. canned policy
+   2. custom policy
+   
+   while creating the singed url we use the private certificate we created earlier and define the time like how long the distribution url can be singed url and valid.
+    cloudfront will validate the public added keygroup with private cert added singed url for handshake and route the traffic.
+    
+  
