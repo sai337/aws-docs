@@ -28,6 +28,8 @@ access s3 bucket with cloudfront.
 }
 
 - create the public and private key using openssl, add the public to the list of public cert
+openssl genrsa -out private_key.pem 2048
+openssl rsa -pubout -in private_key.pem -out public_key.pem
 - add the cert to the keygroups, once added in the behavior configuration choose the trusted key groups and choose the key group created earlier.
 - choose the cache policy - for s3 caching optimized 
 - once all configured, access the distribution endpoint from the browser with /index.html
