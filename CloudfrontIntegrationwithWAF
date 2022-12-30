@@ -1,1 +1,6 @@
+WAF can be integrated with  Amazon CloudFront, the Application Load Balancer (ALB), Amazon API Gateway, and AWS AppSync.
 
+- create a webACL(web access control list) , give it and cloudwatch metric a name.
+- choose the resource type, ex: cloudfront distributuon which is global service or ALB, apigateway which are regional.
+- add the resource which cloudfront distribution id.
+- next in add rules and rulegroups, choose the existing rules from the dropdown or create your custom new rules.
