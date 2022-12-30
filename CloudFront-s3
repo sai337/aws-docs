@@ -41,6 +41,8 @@ openssl rsa -pubout -in private_key.pem -out public_key.pem
 </Error>
  the cloudfront distribution you are trying to access is not singed one
  
+ aws cloudfront sign --url https://cloudfrontdistributionurl/index.html --key-pair-id distributionid --private-key file://cf-signer-priv-key.pem --date-less-than 2023-01-01
+
 - in order to make signed below are the process:
    1. canned policy
    2. custom policy
