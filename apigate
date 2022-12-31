@@ -1,0 +1,21 @@
+api gatewaty types: edgeoptmized , private,regional, websocket 
+    29 seconds timeout request by apigateway
+    10 MB payload request can sent using api gateway.
+    
+  integrate api gate with s3 to upload files:
+   as there is limit on file size to upload only to 10 mB, create s3 presinged url and with lambda layer with this approch we can upload size of any file.
+   
+  features;
+  
+  api gateway can scale on demand
+  logs
+  authorization 
+  proxy integration
+  versioning of apis
+  rollback to older version
+  
+  integrate services:
+  
+  s3, can be integrate with lambda , NLB with vpclink loadbalancer , can integrate with alb but needs to route via nlb.
+   
+   
