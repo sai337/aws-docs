@@ -14,6 +14,7 @@ api gatewaty types: edgeoptmized , private,regional, websocket
   versioning of apis
   rollback to older version
   API Keys for Third-Party Developers
+  API Lifecycle Management
   
   integrate services:
   
