@@ -17,6 +17,7 @@ api gatewaty types: edgeoptmized , private,rest and websocket api gateway
   API Lifecycle Management
   setting the thortling limit and burst limit - so that can concurrent excutions from a single user can have limit hitting on api.
   
+  apigateway security with aws_iam, cognito user pool, cognito identiy pool and lambda authorizer.
   
   integrate services:
   
