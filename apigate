@@ -1,4 +1,4 @@
-api gatewaty types: edgeoptmized , private,regional, websocket 
+api gatewaty types: edgeoptmized , private,rest and websocket api gateway
     29 seconds timeout request by apigateway
     10 MB payload request can sent using api gateway.
     
@@ -15,6 +15,8 @@ api gatewaty types: edgeoptmized , private,regional, websocket
   rollback to older version
   API Keys for Third-Party Developers: If you’re using REST APIs, API Gateway helps you manage the ecosystem of third-party developers accessing your APIs. You can create API keys on API Gateway, set fine-grained access permissions on each API key, and distribute them to third-party developers to access your APIs. You can also define plans that set throttling and request quota limits for each individual API key. The use of API keys is completely optional and must be enabled on a per-method level.
   API Lifecycle Management
+  setting the thortling limit and burst limit - so that can concurrent excutions from a single user can have limit hitting on api.
+  
   
   integrate services:
   
