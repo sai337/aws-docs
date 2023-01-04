@@ -3,3 +3,9 @@ https://www.wellarchitectedlabs.com/operational-excellence/100_labs/100_inventor
 operational excellence with systems manager:
     AWS Systems Manager is a collection of features that enable IT Operations that we will explore throughout this lab.
   - https://www.wellarchitectedlabs.com/operational-excellence/100_labs/100_inventory_patch_management/4_inventory_mgmt/
+    operations as code with system manager with:
+                            fleet manager: once you install the systems manager add required permissions to it.
+                            compliance: 
+                            inventory managment:
+                            run command:
+                            patch manager
