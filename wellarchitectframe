@@ -9,3 +9,16 @@ operational excellence with systems manager:
                             inventory managment:
                             run command:
                             patch manager
+DEPENDENCY MONITORING: to monitor the external dependencies on the workloads you run on.
+  Goals:
+
+    Create alarms to monitor external dependencies
+    Alert relevant stakeholders when outcomes are at risk due to a failed external dependency
+    Learn how to automate this process
+    Best Practices Covered:
+
+    Implement dependency telemetry: Design and configure your workload to emit information about the status of resources it depends on. Examples of these are external databases, DNS, and network connectivity. Use this information to determine when a response is required.
+
+    Alert when workload outcomes are at risk: Raise an alert when workload outcomes are at risk so that you can respond appropriately if required.
+
+    Enable push notifications: Communicate directly with your users (for example, with email or SMS) when the services they use are impacted, and when the services return to normal operating conditions, to enable users to take appropriate action.
