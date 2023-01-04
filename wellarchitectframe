@@ -10,7 +10,7 @@ operational excellence with systems manager:
                             run command:
                             patch manager
 DEPENDENCY MONITORING: to monitor the external dependencies on the workloads you run on.
-  Goals:
+  Goals: Implement dependency telemetry
 
     Create alarms to monitor external dependencies
     Alert relevant stakeholders when outcomes are at risk due to a failed external dependency
