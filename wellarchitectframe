@@ -9,7 +9,7 @@ wellarchitectframe pillars:
 
 https://www.wellarchitectedlabs.com/operational-excellence/100_labs/100_inventory_patch_management/4_inventory_mgmt/
 
-operational excellence with systems manager:
+1.operational excellence with systems manager:
     AWS Systems Manager is a collection of features that enable IT Operations that we will explore throughout this lab.
   - https://www.wellarchitectedlabs.com/operational-excellence/100_labs/100_inventory_patch_management/4_inventory_mgmt/
     operations as code with system manager with:
@@ -31,3 +31,9 @@ DEPENDENCY MONITORING: to monitor the external dependencies on the workloads you
     Alert when workload outcomes are at risk: Raise an alert when workload outcomes are at risk so that you can respond appropriately if required.
 
     Enable push notifications: Communicate directly with your users (for example, with email or SMS) when the services they use are impacted, and when the services return to normal operating conditions, to enable users to take appropriate action.
+    
+    
+    2. Security: 
+     Automated Deployment of Detective Controls with cloudtrail, config, guardduty and securityhub - https://www.wellarchitectedlabs.com/security/200_labs/200_automated_deployment_of_detective_controls/
+    
+    
