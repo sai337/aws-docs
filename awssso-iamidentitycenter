@@ -1,0 +1,3 @@
+connect onprem AD with aws control tower for user authentication, users who logged in to the AD can login to the aws account.
+
+to setup the AD with aws control tower, go to the aws sso page under dashboard -> settings -> identity source create the endpoint for the saml integrationa and choose type as External identity provider with saml authentication and give the AD id as Identity store ID.
