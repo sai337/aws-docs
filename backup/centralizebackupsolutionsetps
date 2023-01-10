@@ -7,6 +7,9 @@ create the kmskey and vault in member accounts - member account iam role has to 
 create the central account vault
 deploy the backup polices in payer account
 
+
+centralized backup alarms: https://github.com/aws-samples/aws-backup-alarms/tree/main/cfn-templates/delegated-account
+
 https://aws.amazon.com/blogs/storage/automate-centralized-backup-at-scale-across-aws-services-using-aws-backup/
 https://github.com/aws-samples/aws-backup-automation/blob/main/CloudFormation/aws-backup-org-policy.yaml
 
