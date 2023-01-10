@@ -1,5 +1,7 @@
 For the exisiting resources tagging: if the aws config and config recorder is enabled, it will track the all the resources created in the accounts, so a script and iterate through all the accounts.
 
+applying tags to resources for ssm automation: example- patching ec2 instance if they have some sort of keys.
+
 https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
 
 https://docs.aws.amazon.com/systems-manager/latest/userguide/tagging-resources.html
