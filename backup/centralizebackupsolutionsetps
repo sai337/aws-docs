@@ -12,8 +12,8 @@ https://github.com/aws-samples/aws-backup-automation/blob/main/CloudFormation/aw
 
 backup audit manager: https://docs.aws.amazon.com/aws-backup/latest/devguide/bam-cfn-integration.html
 
-us-east-1 nonprod vault name: Dish-Centeral-Dev-Vault
-us-east-1 prod vault name: Dish-Centeral-Prod-Vault
+us-east-1 nonprod vault name: companyname-Centeral-Dev-Vault
+us-east-1 prod vault name: companyname-Centeral-Prod-Vault
 
 
 
