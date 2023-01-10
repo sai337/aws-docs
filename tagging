@@ -1,5 +1,9 @@
 For the exisiting resources tagging: if the aws config and config recorder is enabled, it will track the all the resources created in the accounts, so a script and iterate through all the accounts.
 
+https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+
+
+
 https://aws.amazon.com/blogs/mt/implement-aws-resource-tagging-strategy-using-aws-tag-policies-and-service-control-policies-scps/
 scp to block the resource creation if no tags:
 {
