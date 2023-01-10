@@ -1,3 +1,65 @@
+Aws backup:
+
+create the iam roles in member accounts
+create the kmskey and vault in member accounts - member account iam role has to create the before the vault creation
+create the central account vault
+deploy the backup polices in payer account
+
+https://aws.amazon.com/blogs/storage/automate-centralized-backup-at-scale-across-aws-services-using-aws-backup/
+https://github.com/aws-samples/aws-backup-automation/blob/main/CloudFormation/aws-backup-org-policy.yaml
+
+backup audit manager: https://docs.aws.amazon.com/aws-backup/latest/devguide/bam-cfn-integration.html
+
+us-east-1 nonprod vault name: Dish-Centeral-Dev-Vault
+us-east-1 prod vault name: Dish-Centeral-Prod-Vault
+
+
+
+changed the access policy on central vault
+changed the ou id to infrastructure prod in the ce-pe memberaccount vault access policy
+
+ebs with aws default kms key attached, cannot be copied to central vault. we should create new kms policy 
+
+
+backup observer solution:
+https://aws.amazon.com/blogs/storage/obtain-aggregated-daily-cross-account-multi-region-aws-backup-reporting/
+
+
+observer function - to be deployed in each account 
+reporter function - to be deployed in the central account 
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Allow access to backup vault",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "backup:CopyIntoBackupVault",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalOrgID": "r-hou1"
+                }
+            }
+        },
+        {
+            "Sid": "d19281ec-1613-4eee-b72c-2b7d9df12a0b",
+            "Effect": "Allow",
+            "Action": "backup:CopyIntoBackupVault",
+            "Resource": "*",
+            "Principal": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:PrincipalOrgID": [
+                        "o-8nr41qxug6"
+                    ]
+                }
+            }
+        }
+    ]
+}
+
 Event Bridge pattern to look for backup fails and notify with sns.
 
 Event bridge patterns for failed copy, backup - https://docs.aws.amazon.com/aws-backup/latest/devguide/eventbridge.html
