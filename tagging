@@ -84,4 +84,29 @@ scp to deny tag deletion from resources:
 
 tagging policies:
 
+{
+    "tags": {
+        "Environment": {
+            "tag_key": {
+                "@@assign": "Environment"
+            },
+            "tag_value": {
+                "@@assign": [
+                    "dev",
+                    "int",
+                    "test",
+                    "Prod",
+                    "PII"
+                ]
+            },
+            "enforced_for": {
+                "@@assign": [
+                    "secretsmanager:*",
+                    "ec2:*"
+                ]
+            }
+        }
+    }
+}
+
 
