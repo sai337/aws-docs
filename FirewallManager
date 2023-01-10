@@ -1,0 +1,3 @@
+https://github.com/aws-solutions/aws-firewall-manager-automations-for-aws-organizations
+
+hub and spoke account: create and deploy rules in hub account which will monitor and notify the remove the quad zeros.
