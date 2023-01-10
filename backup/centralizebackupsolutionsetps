@@ -1,0 +1,3 @@
+Event Bridge pattern to look for backup fails and notify with sns.
+
+Event bridge patterns for failed copy, backup - https://docs.aws.amazon.com/aws-backup/latest/devguide/eventbridge.html
