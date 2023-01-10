@@ -41,7 +41,7 @@ reporter function - to be deployed in the central account
             "Resource": "*",
             "Condition": {
                 "StringEquals": {
-                    "aws:PrincipalOrgID": "r-hou1"
+                    "aws:PrincipalOrgID": "payeraccountorgnizationId"
                 }
             }
         },
@@ -54,7 +54,7 @@ reporter function - to be deployed in the central account
             "Condition": {
                 "StringEquals": {
                     "aws:PrincipalOrgID": [
-                        "o-8nr41qxug6"
+                        "payeraccountorgnizationId"
                     ]
                 }
             }
