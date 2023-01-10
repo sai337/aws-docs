@@ -1,0 +1,85 @@
+https://aws.amazon.com/blogs/mt/implement-aws-resource-tagging-strategy-using-aws-tag-policies-and-service-control-policies-scps/
+scp to block the resource creation if no tags:
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyEC2CreationSCP1",
+      "Effect": "Deny",
+      "Action": [
+        "ec2:RunInstances"
+      ],
+      "Resource": [
+        "arn:aws:ec2:*:*:instance/*",
+        "arn:aws:ec2:*:*:volume/*"
+      ],
+      "Condition": {
+        "Null": {
+          "aws:RequestTag/costcenter": "true"
+        }
+      }
+    },
+    {
+      "Sid": " DenyEC2CreationSCP2",
+      "Effect": "Deny",
+      "Action": [
+        "ec2:RunInstances"
+      ],
+      "Resource": [
+        "arn:aws:ec2:*:*:instance/*",
+        "arn:aws:ec2:*:*:volume/*"
+      ],
+      "Condition": {
+        "Null": {
+          "aws:RequestTag/team": "true"
+        }
+      }
+    }
+  ]
+}
+
+
+scp to deny tag deletion from resources:
+
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyDeleteTag1",
+      "Effect": "Deny",
+      "Action": [
+        "ec2:DeleteTags"
+      ],
+      "Resource": [
+        "arn:aws:ec2:*:*:instance/*",
+        "arn:aws:ec2:*:*:volume/*"
+      ],
+      "Condition": {
+        "Null": {
+          "aws:RequestTag/costcenter": "false"
+        }
+      }
+    },
+    {
+      "Sid": "DenyDeleteTag2",
+      "Effect": "Deny",
+      "Action": [
+        "ec2:DeleteTags"
+      ],
+      "Resource": [
+        "arn:aws:ec2:*:*:instance/*",
+        "arn:aws:ec2:*:*:volume/*"
+      ],
+      "Condition": {
+        "Null": {
+          "aws:RequestTag/team": "false"
+        }
+      }
+    }
+  ]
+}
+
+tagging policies:
+
+
