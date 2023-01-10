@@ -1,5 +1,7 @@
 Aws backup:
 
+Back policies are callaed as policies in the payer account and backup plans in the member account.
+
 create the iam roles in member accounts
 create the kmskey and vault in member accounts - member account iam role has to create the before the vault creation
 create the central account vault
