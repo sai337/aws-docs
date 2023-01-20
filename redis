@@ -36,3 +36,38 @@ Redis use formula - crc 16 (keyname) 16384 - which means when a client sends a r
 and those hashkey values can be distributed to the numnber of shareds we created.
 
 one haskkey can store multiple keyvalues.
+
+
+
+
+You had a number of queries regarding ElastiCache Redis Cluster, which I have highlighted and provided a summary to each:
+
+[A] You launched an Elasticache cluster mode enabled and noticed for each shard (2 shard cluster) there was a single node.
+
+Ans: As explained the node created is the Primary cache node which performs both read and write replicas. This role is always available in every cluster. In addition to this cache node, up to 5 replica nodes can also be added to each shard bringing the total to 6 nodes per shard. The ReplicasPerNodeGroup directive controls the number of replicas to add to each shard [1]. From your cloudformation script, since this parameter was not specified, no replicas were added to the shard. The cloudformation script was modified to include the directive and value was set to 3. This then updated the cluster to required number of replicas without any errors.
+
+[B] Since there are two shards how are the keys distributed amongst the shards.
+
+Ans: By default the keys are distributed based on the keyname with the help of the redis client which should be cluster aware and the ElastiCache Redis cluster. The attach link provides additional information about the different available redis clients [2]. When a key/value is going to be written to the cluster, the redis client calculates the hash slot of the key using the formula (CRC16 (keyname) mod 16384 ) and based on the value obtained it stores the key and its value in the shard responsible for the hash slot. As with your cluster setup the slots are distributed as highlighted below. If the hash of the keyname generates a value of 1000, the keyname and its value will be stored in shard 0001 since shard0001 is responsible for hash slot 1000. if another keyname is hashed and generates a value of 16000, the key and its value will be stored in shard0002.
+
+shard0001: 0 - 8191
+shard0002: 8192 - 16383
+
+The same also applies when reading data from the cache. For the key that is going to be read from the cluster, the hash slot is calculated as highlighted above using the keyname and based on the value obtained, the redis client reads the data from the shard that is responsible for the hash slot. Additional information about redis key distribution model, can be found in the attached reference link under the subheading: \"Overview of Redis Cluster main components\" [2]. In addition Redis hashtags can also be used to control which shard the key is stored in. Information about hashtag can be found in the same 3rd party link [3-4].
+
+[C] With regards to using multiple applications with the cluster, as explained, cluster mode enabled only support database 0. Multiple logical databases are not supported and hence if you would use the same cluster, you will have to ensure each keyname is unique across all the applications using the cluster otherwise the values will be overwritten by other applications. Alternatively you can also use hashtags to control which shard an application key will be stored in. If that cannot be guaranteed from the application end, you can explore the use of cluster mode disabled. This configuration gives you the option to have more than one logical database. By default 16 logical databases are configured in the default parameter group. For Redis 6.x parameter group, the maximum allowed value is 10000. Each logical database can be used to store data from the different applications to serve as logical separation.
+
+Provided in the reference section is information about the two configurations i.e cluster mode disabled and cluster mode enabled [5].
+
+Should you have any follow up questions, please do not hesitate to contact me through the case correspondence. I will be more than willing to assist further.
+
+Stay safe and have a wonderful day ahead!
+
+References:
+=========
+[1] https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html
+[2] https://redis.io/resources/clients/
+[3] https://redis.io/docs/reference/cluster-spec/#:~:text=Redis%20Cluster%20is%20a%20full,are%20not%20created%20on%20demand.
+[4] https://redis.com/blog/redis-clustering-best-practices-with-keys/
+[5] Replication: Redis (Cluster Mode Disabled) vs. Redis (Cluster Mode Enabled) -
+https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Replication.Redis-RedisCluster.html
