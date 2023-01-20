@@ -1,1 +1,38 @@
+[January 20, 2023, 12:49 AM] Baah, Charles: Clients | Redisredis.ioImplementations of the Redis&#39; protocol in different programming languageshttps://redis.io/resources/clients/
+[January 20, 2023, 12:53 AM] Baah, Charles: crc 16 (keyname) 16384
+[January 20, 2023, 12:54 AM] Baah, Charles: set firstname charles
+[January 20, 2023, 12:55 AM] Baah, Charles: crc 16 (firstname) 16384
+[January 20, 2023, 12:57 AM] Baah, Charles: 1024
+[January 20, 2023, 12:57 AM] Baah, Charles: 16000
+[January 20, 2023, 12:59 AM] Baah, Charles: firstname: charles, john, stephen
+[January 20, 2023, 1:20 AM] Baah, Charles: firstname , country
+[January 20, 2023, 1:23 AM] Baah, Charles: cluster slot
+[January 20, 2023, 1:23 AM] Baah, Charles: cluster slots
+[January 20, 2023, 1:23 AM] Baah, Charles: cluster nodes
+[January 20, 2023, 1:23 AM] Baah, Charles: redis-cli
+[January 20, 2023, 1:25 AM] Baah, Charles: GitHub - redis/redis-py: Redis Python Clientgithub.comRedis Python Client. Contribute to redis/redis-py development by creating an account on GitHub.https://github.com/redis/redis-py
+ 
 
+redis cluster mode diasbled: - you can create only 1 shard - which is one primary and 5 read replicas 
+
+ Can have multilple logical databases - meaning ,we can map one application to one logical datase and redis clients (which are applications).
+ if needed we can increase the logical databases on the parameter group to the number we need.
+ 
+if the primary fails redis will choose or make another node as primary.
+
+python client example to map the specific application to one logical database.
+
+we can have backups 
+ 
+ 
+Redis cluster mode enabled: can multiple shards - one shard is of one write (primary) and 0-5 read replicas.
+
+with cluster mode enabled we cannot have the duplicate key values
+
+
+
+Redis use formula - crc 16 (keyname) 16384 - which means when a client sends a request to store a key , it will assign a hashkey from the 0- 16384.
+
+and those hashkey values can be distributed to the numnber of shareds we created.
+
+one haskkey can store multiple keyvalues.
