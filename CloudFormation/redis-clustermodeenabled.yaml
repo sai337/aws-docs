@@ -1,0 +1,315 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: AWS CloudFormation Template to create the redis cache cluster.
+Parameters:
+  CacheNodeType:
+    Description: >-
+      Elastic Cache instance type(deafult cache.t2.small for production
+      cache.t2.medium)
+    Type: String
+    Default: cache.t3.medium
+    AllowedValues:
+      - cache.t3.micro
+      - cache.t3.small
+      - cache.t3.medium
+      - cache.m6g.large
+      - cache.m6g.xlarge
+      - cache.m6g.2xlarge
+      - cache.m6g.4xlarge
+      - cache.m6g.8xlarge
+      - cache.m6g.12xlarge
+      - cache.m6g.16xlarge
+      - cache.m6g.24xlarge
+      - cache.m5.large
+      - cache.m5.xlarge
+      - cache.m5.2xlarge
+      - cache.m5.4xlarge
+      - cache.m5.12xlarge
+      - cache.m5.24xlarge
+      - cache.t4g.micro
+      - cache.t4g.small
+      - cache.t4g.medium
+      - cache.t3.micro
+      - cache.t3.small
+      - cache.t3.medium
+      - cache.t2.micro
+      - cache.t2.small
+      - cache.t2.medium
+      - cache.r6gd.xlarge
+      - cache.r6gd.2xlarge
+      - cache.r6gd.4xlarge
+      - cache.r6gd.8xlarge
+      - cache.r6gd.12xlarge
+      - cache.r6gd.16xlarge
+      - cache.r6g.large
+      - cache.r6g.xlarge
+      - cache.r6g.2xlarge
+      - cache.r6g.4xlarge
+      - cache.r6g.8xlarge
+      - cache.r6g.12xlarge
+      - cache.r6g.16xlarge
+      - cache.r6g.24xlarge
+      - cache.r5.large
+      - cache.r5.xlarge
+      - cache.r5.2xlarge
+      - cache.r5.4xlarge
+      - cache.r5.12xlarge
+      - cache.r5.24xlarge
+      - cache.r4.large
+      - cache.r4.xlarge
+      - cache.r4.2xlarge
+      - cache.r4.4xlarge
+      - cache.r4.8xlarge
+      - cache.r4.16xlarge
+    ConstraintDescription: must be a valid cache instance type.
+  CacheReplicaCount:
+    Type: Number
+    Description: NUmber of replica in redis.
+    Default: 2
+  CacheFailover:
+    Description: Redis Cache failover required.
+    Default: true
+    Type: String
+    AllowedValues:
+      - true
+      - false
+  PrivateSubnet1:
+    Type: 'AWS::EC2::Subnet::Id'
+    Description: Subnet1 ID
+    Default: 
+  PrivateSubnet2:
+    Type: 'AWS::EC2::Subnet::Id'
+    Description: Subnet2 ID
+    Default: 
+  PrivateSubnet3:
+    Type: 'AWS::EC2::Subnet::Id'
+    Description: Subnet3 ID
+    Default: 
+  VpcId:
+    Type: 'AWS::EC2::VPC::Id'
+    Description: Choose the vpc id form the drop down
+    Default: 
+  logsendpointsg:
+    Type: 'AWS::EC2::SecurityGroup::Id'
+    Description: Choose logs Endpoint security group
+    Default: 
+  ApplcationEnvironment:
+    Type: String
+    AllowedValues:
+      - dev
+      - test
+      - int
+      - prod
+  EngineVersion:
+    Description: Redis version
+    Type: String
+    Default: '6.0'
+    AllowedValues:
+      - 3.2.6
+      - 4.0.10
+      - 5.0.0
+      - 5.0.3
+      - 5.0.4
+      - 5.0.5
+      - 5.0.6
+      - '6.0'
+      - '6.2'
+      - '7.0'
+  TransitEncryptionEnabled:
+    Description: Choose the Intransit encryption to be enabled.
+    Type: String
+    Default: true
+    AllowedValues:
+      - true
+      - false
+  NumNodeGroupsinReplicationgroup:
+    Description: Give the number of nodes per Replicaton group
+    Type: String
+    Default: 2
+  HostedZoneId:
+    Description: Give the hostedzone Id parameter.
+    Type: String
+    Default: 
+  HostedZoneName:
+    Description: Give the hostedzone name as parameter.
+    Type: String
+    Default: 
+Mappings:
+  EngineVersionMap:
+    '7.0':
+      CacheParameterGroupFamily: redis7.x
+    '6.2':
+      CacheParameterGroupFamily: redis6.x
+    '6.0':
+      CacheParameterGroupFamily: redis6.x
+    5.0.6:
+      CacheParameterGroupFamily: redis5.0
+    5.0.4:
+      CacheParameterGroupFamily: redis5.0
+    5.0.3:
+      CacheParameterGroupFamily: redis5.0
+    5.0.0:
+      CacheParameterGroupFamily: redis5.0
+    4.0.10:
+      CacheParameterGroupFamily: redis4.0
+    3.2.6:
+      CacheParameterGroupFamily: redis3.2
+Conditions:
+  HasClusterModeEnabled: !Not 
+    - !Equals 
+      - !Ref NumNodeGroupsinReplicationgroup
+      - 1
+  HasClusterModeDisabled: !Not [!Condition HasClusterModeEnabled]    
+Resources:
+  # RecordSet:
+  #   Type: 'AWS::Route53::RecordSet'
+  #   Properties:
+  #     HostedZoneId: !Ref HostedZoneId
+  #     HostedZoneName: !Ref HostedZoneName
+  #     Name: !Sub
+  #       - ElasticacheReplicationGroup.PrimaryEndPoint.Address
+  #       # - !Ref HostedZoneName
+  #     ResourceRecords:
+  #       - !If 
+  #         - HasClusterModeEnabled
+  #         - !GetAtt ElasticacheReplicationGroup.ConfigurationEndPoint.Address
+  #         - !GetAtt ElasticacheReplicationGroup.PrimaryEndPoint.Address
+  #     TTL: 60
+  #     Type: CNAME
+  CacheParameterGroup:
+    Type: 'AWS::ElastiCache::ParameterGroup'
+    Properties:
+      CacheParameterGroupFamily: !FindInMap 
+        - EngineVersionMap
+        - !Ref EngineVersion
+        - CacheParameterGroupFamily
+      Description: !Ref 'AWS::StackName'
+      Properties: !If 
+        - HasClusterModeEnabled
+        - cluster-enabled: 'yes'
+        - {}
+  ElasticacheReplicationGroup:
+    Type: 'AWS::ElastiCache::ReplicationGroup'
+    Properties:
+      ReplicationGroupDescription: Elasticache Replication group
+      NumNodeGroups: !Ref NumNodeGroupsinReplicationgroup
+      CacheParameterGroupName: !Ref CacheParameterGroup
+      ReplicasPerNodeGroup: 3
+      AutoMinorVersionUpgrade: 'false'
+      Engine: redis
+      EngineVersion: !Ref EngineVersion
+      AutomaticFailoverEnabled: !Ref CacheFailover
+      CacheNodeType: !Ref CacheNodeType
+      SecurityGroupIds:
+        - !GetAtt ElastiCacheSG.GroupId
+      CacheSubnetGroupName: !Ref ElasticSubnetGroupGroup
+      TransitEncryptionEnabled: !Ref TransitEncryptionEnabled
+  ElasticSubnetGroupGroup:
+    Type: 'AWS::ElastiCache::SubnetGroup'
+    Properties:
+      CacheSubnetGroupName: ElasticCacheSubnetGroup
+      Description: RMS redis subnet group
+      SubnetIds:
+        - !Ref PrivateSubnet1
+        - !Ref PrivateSubnet2
+        - !Ref PrivateSubnet3
+      Tags:
+        - Key: TeamOwned
+          Value: 
+        - Key: CreatedBy
+          Value: 
+        - Key: AppOwner
+          Value: 
+        - Key: Environment
+          Value: !Ref ApplcationEnvironment
+        - Key: Region
+          Value: 
+        - Key: Type
+          Value: 
+        - Key: Managed By
+          Value: 
+        - Key: Supported By
+          Value: 
+        - Key: Used By
+          Value: 
+        - Key: Line Of Business
+          Value: 
+  ElastiCacheSG:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: !Ref 'AWS::StackName'
+      VpcId: !Ref VpcId
+      GroupName: ElastiCacheSG
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 6379
+          ToPort: 6379
+          SourceSecurityGroupId: !Ref logsendpointsg
+      Tags:
+        - Key: TeamOwned
+          Value: 
+        - Key: CreatedBy
+          Value: 
+        - Key: AppOwner
+          Value: 
+        - Key: Environment
+          Value: !Ref ApplcationEnvironment
+        - Key: Region
+          Value: 
+        - Key: Type
+          Value: 
+        - Key: Managed By
+          Value: 
+        - Key: Supported By
+          Value: 
+        - Key: Used By
+          Value: 
+        - Key: Line Of Business
+          Value: 
+# Outputs:
+#   ElasticCacheHost:
+#     Description: Elastic cache host
+#     Value: !GetAtt 
+#       - ElasticacheReplicationGroup
+#       - ConfigurationEndPoint.Address
+#       # - PrimaryEndPoint.Address
+#     Export:
+#       Name: !Sub RedisHost
+#   ConfigurationEndPointAddress:
+#     Condition: HasClusterModeDisabled
+#     Description: 'The DNS address of the primary read-write cache node.'
+#     Value: !GetAtt 'ElasticacheReplicationGroup.ConfigurationEndPoint.Address'
+#     Export:
+#       Name: !Sub '${AWS::StackName}-ConfigurationEndPointAddress'    
+  # PrimaryEndPointAddress:
+  #   Condition: HasClusterModeDisabled
+  #   Description: 'The DNS address of the primary read-write cache node.'
+  #   Value: !GetAtt 'ElasticacheReplicationGroup.PrimaryEndPoint.Address'
+  #   Export:
+  #     Name: !Sub '${AWS::StackName}-PrimaryEndPointAddress'    
+#   ElasticCachePort:
+#     Description: Elastic cache port
+#     Value: !GetAtt 
+#       - ElasticacheReplicationGroup
+#       - PrimaryEndPoint.Port
+#     Export:
+#       Name: !Sub RedisPort
+#   ElasticCacheHost:
+#     Description: Elastic cache host
+#     Value: !GetAtt 
+#       - ElasticacheReplicationGroup
+#       - PrimaryEndPoint.Address
+#     Export:
+#       Name: !Sub RedisHost
+#   PrimaryEndPointAddress:
+#     Condition: HasClusterModeDisabled
+#     Description: 'The DNS address of the primary read-write cache node.'
+#     Value: !GetAtt 'ElasticacheReplicationGroup.PrimaryEndPoint.Address'
+#     Export:
+#       Name: !Sub '${AWS::StackName}-PrimaryEndPointAddress'    
+#   ElasticCachePort:
+#     Description: Elastic cache port
+#     Value: !GetAtt 
+#       - ElasticacheReplicationGroup
+#       - PrimaryEndPoint.Port
+#     Export:
+#       Name: !Sub RedisPort
