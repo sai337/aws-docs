@@ -9,6 +9,8 @@ https://docs.aws.amazon.com/systems-manager/latest/userguide/tagging-resources.h
 https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-patch-group-tagging.html
 
 https://aws.amazon.com/blogs/mt/implement-aws-resource-tagging-strategy-using-aws-tag-policies-and-service-control-policies-scps/
+
+https://aws.amazon.com/blogs/mt/implement-aws-resource-tagging-strategy-using-aws-tag-policies-and-service-control-policies-scps/
 scp to block the resource creation if no tags:
 {
   "Version": "2012-10-17",
