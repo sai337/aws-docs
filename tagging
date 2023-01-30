@@ -2,6 +2,492 @@ For the exisiting resources tagging: if the aws config and config recorder is en
 
 applying tags to resources for ssm automation: example- patching ec2 instance if they have some sort of keys.
 
+
+Enforce tagging policies on aws:
+
+enable the tagging on control tower
+enable the tagginng on control tower services 
+create the tag policies:
+{
+  "tags": {
+    "AppName": {
+      "tag_key": {
+        "@@assign": "AppName"
+      },
+      "enforced_for": {
+        "@@assign": [
+          "amplifyuibuilder:component",
+          "amplifyuibuilder:app/environment/components",
+          "amplifyuibuilder:app/environment/themes",
+          "amplifyuibuilder:theme",
+          "aoss:collection",
+          "apigateway:apikeys",
+          "apigateway:domainnames",
+          "apigateway:restapis",
+          "apigateway:stages",
+          "appmesh:*",
+          "appconfig:application",
+          "appconfig:configurationprofile",
+          "appconfig:deployment",
+          "appconfig:deploymentstrategy",
+          "appconfig:environment",
+          "athena:*",
+          "auditmanager:assessment",
+          "auditmanager:assessmentControlSet",
+          "auditmanager:assessmentFramework",
+          "auditmanager:control",
+          "backup:backupPlan",
+          "backup:backupVault",
+          "backup-gateway:gateway",
+          "backup-gateway:hypervisor",
+          "backup-gateway:vm",
+          "batch:job",
+          "batch:job-definition",
+          "batch:job-queue",
+          "bugbust:event",
+          "acm:*",
+          "acm-pca:certificate-authority",
+          "chime:app-instance",
+          "chime:app-instance-user",
+          "chime:app-instance/channel",
+          "chime:app-instance/user",
+          "chime:channel",
+          "chime:media-pipeline",
+          "chime:meeting",
+          "cloud9:environment",
+          "cloudfront:*",
+          "cloudtrail:*",
+          "cloudwatch:*",
+          "events:*",
+          "logs:log-group",
+          "codebuild:*",
+          "codecommit:*",
+          "codeguru-reviewer:association",
+          "codepipeline:*",
+          "codestar-connections:connection",
+          "codestar-connections:host",
+          "cognito-identity:*",
+          "cognito-idp:*",
+          "comprehend:*",
+          "config:*",
+          "connect:contact-flow",
+          "connect:instance/agent",
+          "connect:instance/contact-flow",
+          "connect:instance/integration-association",
+          "connect:instance/queue",
+          "connect:instance/routing-profile",
+          "connect:instance/transfer-destination",
+          "connect:integration-association",
+          "connect:queue",
+          "connect:quick-connect",
+          "connect:routing-profile",
+          "connect:user",
+          "dlm:policy",
+          "directconnect:*",
+          "dms:*",
+          "dynamodb:*",
+          "ec2:capacity-reservation",
+          "ec2:client-vpn-endpoint",
+          "ec2:customer-gateway",
+          "ec2:dhcp-options",
+          "ec2:elastic-ip",
+          "ec2:fleet",
+          "ec2:fpga-image",
+          "ec2:host-reservation",
+          "ec2:image",
+          "ec2:instance",
+          "ec2:internet-gateway",
+          "ec2:launch-template",
+          "ec2:natgateway",
+          "ec2:network-acl",
+          "ec2:network-interface",
+          "ec2:reserved-instances",
+          "ec2:route-table",
+          "ec2:security-group",
+          "ec2:snapshot",
+          "ec2:spot-instance-request",
+          "ec2:subnet",
+          "ec2:traffic-mirror-filter",
+          "ec2:traffic-mirror-session",
+          "ec2:traffic-mirror-target",
+          "ec2:volume",
+          "ec2:vpc",
+          "ec2:vpc-endpoint",
+          "ec2:vpc-endpoint-service",
+          "ec2:vpc-peering-connection",
+          "ec2:vpn-connection",
+          "ec2:vpn-gateway",
+          "elasticfilesystem:*",
+          "elastic-inference:accelerator",
+          "eks:cluster",
+          "elasticbeanstalk:application",
+          "elasticbeanstalk:applicationversion",
+          "elasticbeanstalk:configurationtemplate",
+          "elasticbeanstalk:platform",
+          "ecr:repository",
+          "ecs:cluster",
+          "ecs:service",
+          "ecs:task-set",
+          "elasticache:cluster",
+          "es:domain",
+          "elasticloadbalancing:*",
+          "elasticmapreduce:cluster",
+          "elasticmapreduce:editor",
+          "emr-serverless:applications",
+          "firehose:*",
+          "frauddetector:detector",
+          "frauddetector:detector-version",
+          "frauddetector:model",
+          "frauddetector:rule",
+          "frauddetector:variable",
+          "fsx:*",
+          "globalaccelerator:accelerator",
+          "greengrass:bulkDeployment",
+          "greengrass:connectorDefinition",
+          "greengrass:coreDefinition",
+          "greengrass:deviceDefinition",
+          "greengrass:functionDefinition",
+          "greengrass:loggerDefinition",
+          "greengrass:resourceDefinition",
+          "greengrass:subscriptionDefinition",
+          "guardduty:detector",
+          "guardduty:filter",
+          "guardduty:ipset",
+          "guardduty:threatintelset",
+          "healthlake:datastore",
+          "iam:instance-profile",
+          "iam:mfa",
+          "iam:oidc-provider",
+          "iam:policy",
+          "iam:saml-provider",
+          "iam:server-certificate",
+          "inspector2:filter",
+          "iotanalytics:*",
+          "iotevents:*",
+          "iotsitewise:asset",
+          "iotsitewise:asset-model",
+          "iotfleethub:application",
+          "kinesisanalytics:*",
+          "kms:*",
+          "lambda:*",
+          "macie2:custom-data-identifier",
+          "mediastore:container",
+          "mq:broker",
+          "mq:configuration",
+          "network-firewall:firewall",
+          "network-firewall:firewall-policy",
+          "network-firewall:stateful-rulegroup",
+          "network-firewall:stateless-rulegroup",
+          "oam:link",
+          "oam:sink",
+          "organizations:account",
+          "organizations:ou",
+          "organizations:policy",
+          "organizations:root",
+          "sms-voice:configuration-set",
+          "sms-voice:opt-out-list",
+          "sms-voice:phone-number",
+          "sms-voice:pool",
+          "sms-voice:sender-id",
+          "pipes:pipe",
+          "rbin:rule",
+          "rds:cluster-endpoint",
+          "rds:cluster-pg",
+          "rds:db-proxy",
+          "rds:db-proxy-endpoint",
+          "rds:es",
+          "rds:og",
+          "rds:pg",
+          "rds:ri",
+          "rds:secgrp",
+          "rds:subgrp",
+          "rds:target-group",
+          "redshift:*",
+          "ram:*",
+          "resource-groups:*",
+          "route53:hostedzone",
+          "route53resolver:*",
+          "s3:bucket",
+          "sagemaker:action",
+          "sagemaker:app-image-config",
+          "sagemaker:artifact",
+          "sagemaker:context",
+          "sagemaker:experiment",
+          "sagemaker:flow-definition",
+          "sagemaker:human-task-ui",
+          "sagemaker:model-package",
+          "sagemaker:model-package-group",
+          "sagemaker:pipeline",
+          "sagemaker:processing-job",
+          "sagemaker:project",
+          "sagemaker:training-job",
+          "scheduler:schedule-group",
+          "secretsmanager:*",
+          "servicecatalog:application",
+          "servicecatalog:attributeGroup",
+          "servicecatalog:portfolio",
+          "servicecatalog:product",
+          "sns:topic",
+          "sqs:queue",
+          "ssm-contacts:contact",
+          "states:*",
+          "storagegateway:*",
+          "ssm:automation-execution",
+          "ssm:document",
+          "ssm:maintenancewindowtask",
+          "ssm:managed-instance",
+          "ssm:opsitem",
+          "ssm:patchbaseline",
+          "ssm:session",
+          "transfer:server",
+          "transfer:user",
+          "transfer:workflow",
+          "wellarchitected:workload",
+          "wisdom:assistant",
+          "wisdom:association",
+          "wisdom:content",
+          "wisdom:knowledge-base",
+          "wisdom:session",
+          "worklink:fleet",
+          "workspaces:*"
+        ]
+      }
+    }
+  }
+}
+
+attach them OU
+scp to block the resource provisioning without tag keys & scp to block the resource untagging:
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyCreateSecretWithNoAppOwnerTag",
+      "Effect": "Deny",
+      "Action": [
+        "secretsmanager:CreateSecret",
+        "iam:CreateRole"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "Null": {
+          "aws:RequestTag/AppOwner": true
+        }
+      }
+    },
+    {
+      "Sid": "DenyCreateSecretWithNoAppNameTag",
+      "Effect": "Deny",
+      "Action": [
+        "secretsmanager:CreateSecret",
+        "iam:CreateRole"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "Null": {
+          "aws:RequestTag/AppName": true
+        }
+      }
+    },
+    {
+      "Sid": "DenyCreateSecretWithNoBusinessUnitTag",
+      "Effect": "Deny",
+      "Action": [
+        "secretsmanager:CreateSecret",
+        "iam:CreateRole"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "Null": {
+          "aws:RequestTag/BusinessUnit": true
+        }
+      }
+    },
+    {
+      "Sid": "DenyCreateSecretWithNoImpactAreaTag",
+      "Effect": "Deny",
+      "Action": [
+        "secretsmanager:CreateSecret",
+        "iam:CreateRole"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "Null": {
+          "aws:RequestTag/ImpactArea": true
+        }
+      }
+    },
+    {
+      "Sid": "DenyCreateSecretWithNoSupportOwnerTag",
+      "Effect": "Deny",
+      "Action": [
+        "secretsmanager:CreateSecret",
+        "iam:CreateRole"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "Null": {
+          "aws:RequestTag/SupportOwner": true
+        }
+      }
+    },
+    {
+      "Sid": "DenyCreateSecretWithNoEnvinronmentTag",
+      "Effect": "Deny",
+      "Action": [
+        "secretsmanager:CreateSecret",
+        "iam:CreateRole"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "Null": {
+          "aws:RequestTag/Environment": true
+        }
+      }
+    },
+    {
+      "Sid": "DenyModifyTagsIfResAuthzTagAndPrinTagDontMatch",
+      "Effect": "Deny",
+      "Action": [
+        "secretsmanager:UntagResource"
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Condition": {
+        "ForAllValues:StringEquals": {
+          "aws:TagKeys": "AppName"
+        }
+      }
+    },
+    {
+      "Sid": "DenyModifyAppOwnerTags",
+      "Effect": "Deny",
+      "Action": [
+        "secretsmanager:UntagResource"
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Condition": {
+        "ForAllValues:StringEquals": {
+          "aws:TagKeys": "AppOwner"
+        }
+      }
+    },
+    {
+      "Sid": "DenyModifyEnvironmentTags",
+      "Effect": "Deny",
+      "Action": [
+        "secretsmanager:UntagResource"
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Condition": {
+        "ForAllValues:StringEquals": {
+          "aws:TagKeys": "Environment"
+        }
+      }
+    },
+    {
+      "Sid": "DenyModifyBusinessUnitTags",
+      "Effect": "Deny",
+      "Action": [
+        "secretsmanager:UntagResource"
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Condition": {
+        "ForAllValues:StringEquals": {
+          "aws:TagKeys": "BusinessUnit"
+        }
+      }
+    },
+    {
+      "Sid": "DenyModifyImpactAreaTags",
+      "Effect": "Deny",
+      "Action": [
+        "secretsmanager:UntagResource"
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Condition": {
+        "ForAllValues:StringEquals": {
+          "aws:TagKeys": "ImpactArea"
+        }
+      }
+    },
+    {
+      "Sid": "DenyModifySupportOwnerTags",
+      "Effect": "Deny",
+      "Action": [
+        "secretsmanager:UntagResource"
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Condition": {
+        "ForAllValues:StringEquals": {
+          "aws:TagKeys": "SupportOwner"
+        }
+      }
+    }
+  ]
+}
+
+
+once the tags are enforced on the control tower, we can generate a compliance report from the us-east-1 only. which means we need to create an s3 bucket in us-east-1 and add the below policy to the s3 bucket and create the report from aws resourcegroups:
+
+s3 bucket policy to create the compliance report:
+
+{
+    "Version": "2012-10-17", 
+    "Statement": [ 
+        { 
+            "Sid": "TagPolicyACL", 
+            "Effect": "Allow", 
+            "Principal": { 
+                "Service": [ 
+                    "tagpolicies.tag.amazonaws.com" 
+                 ]
+            }, 
+            "Action": "s3:GetBucketAcl", 
+            "Resource": "arn:aws:s3:::<your-bucket-name>",
+            "Condition": {
+                "StringEquals": {
+                    "aws:SourceAccount": "<organization-management-account-id>",
+                    "aws:SourceArn": "arn:aws:tag:us-east-1:<organization-management-account-id>:*"
+                }
+            } 
+         }, 
+         { 
+            "Sid": "TagPolicyBucketDelivery", 
+            "Effect": "Allow", 
+            "Principal": { 
+                "Service": [ 
+                    "tagpolicies.tag.amazonaws.com" 
+                 ]
+            }, 
+            "Action": [ 
+                "s3:PutObject", 
+                "s3:PutObjectAcl"
+            ], 
+            "Resource": "arn:aws:s3:::<your-bucket-name>/AwsTagPolicies/<your-organization-id>/*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:SourceAccount": "<organization-management-account-id>",
+                    "aws:SourceArn": "arn:aws:tag:us-east-1:<organization-management-account-id>:*"
+                }
+            }
+         } 
+    ] 
+}
+
+
 https://github.com/awslabs/tag-policy-setup
 
 https://www.pwc.com/us/en/tech-effect/cloud/aws-tagging-to-evolve-cloud-workloads.html
