@@ -2,4 +2,4 @@ Central account security hub (admin) and managed accounts, with this approch we 
 
 findings can be stored in the account for 90 days from the data they generate.
 
-securityhub works with aws config to find the security findings.
+securityhub works with aws config to find the security findings, All accounts also must enable AWS Config, which is needed for the security checks against security controls.
