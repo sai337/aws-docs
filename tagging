@@ -3,6 +3,7 @@ For the exisiting resources tagging: if the aws config and config recorder is en
 applying tags to resources for ssm automation: example- patching ec2 instance if they have some sort of keys.
 
 https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-tag-policies.html
+https://controltower.aws-management.tools/ops/tag/
 
 Enforce tagging policies on aws:
 
