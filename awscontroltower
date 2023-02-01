@@ -1,1 +1,7 @@
 https://docs.aws.amazon.com/controltower/latest/userguide/drift.html?icmpid=docs_ctower_console#governance-drift
+
+guardrails:
+
+preventive 
+Detective controls
+Proactive controls
