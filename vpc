@@ -1,1 +1,11 @@
+site -to-site vpn
+vpn
+direct connect
+transit gateway
+vpc
+subnets
+internetgateway
+NAT gateway
+NACLS
+private link
 
