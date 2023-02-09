@@ -2,7 +2,9 @@
 
 https://explore.skillbuilder.aws/pages/16/learner-dashboard
 
-
+##
+https://jayendrapatil.com/coupons/aws-certification-exam-coupons/
+##
 Get to know AWS services and best practices by exploring AWS whitepapers relevant to your exam. 
 
 ## Security best practices for AWS Key Management Service
