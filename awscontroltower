@@ -16,8 +16,13 @@ cloudtrail lake
 
 
 
+to do's:
+
+cost savings - https://aws.amazon.com/blogs/compute/10-things-you-can-do-today-to-reduce-aws-costs/
+lambda cost savings - 
+
+securityhub - we can setup a centrailized securityhub in payer account which will create alerts with email notification.
 
 
-we can setup a centrailized securityhub in payer account which will create alerts with email notification.
 
 
