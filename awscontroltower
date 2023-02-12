@@ -37,5 +37,7 @@ local zones
 edge locations
 regional edge locations
 
+networking components for saa: vpc, direct connect, transitgateway, client vpn, site-to-site vpn, private link
+
 
 
