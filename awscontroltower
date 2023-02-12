@@ -17,6 +17,8 @@ cloudtrail lake
 aws config - control tower will enable the aws config in all the member accounts and track the resource config changes with config aggregator.
 
 
+control tower market place - https://aws.amazon.com/marketplace/solutions/control-tower/
+
 
 to do's:
 
