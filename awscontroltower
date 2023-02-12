@@ -2,6 +2,7 @@ https://docs.aws.amazon.com/controltower/latest/userguide/drift.html?icmpid=docs
 
 landingzone
 accountfactory
+control tower custimizations
 guardrails - preventive, Detective controls,Proactive controls
 backup policies
 tag policies - create a s3 bucket in us-east-1 region, and attach s3 bucket policy which will create a compliance report in the s3 bucket. the report contain resources which doen't have tags in the aws accounts.
