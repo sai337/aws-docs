@@ -1,5 +1,7 @@
 https://docs.aws.amazon.com/controltower/latest/userguide/drift.html?icmpid=docs_ctower_console#governance-drift
 
+orgnization
+orgnization
 landingzone
 accountfactory
 control tower custimizations
@@ -10,6 +12,8 @@ service control polices. when can also create cost allocation tags which will cr
 aws sso - once you create the sso in control tower it will create a role in each account 
 permission sets
 onprem AD can be integrate aws sso, which can authenticate users to aws accounts.- authentication and authorizatoin.
+cloudtrail lake
+
 
 
 
