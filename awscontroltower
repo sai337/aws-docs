@@ -1,5 +1,6 @@
 https://docs.aws.amazon.com/controltower/latest/userguide/drift.html?icmpid=docs_ctower_console#governance-drift
 
+enable the control tower full feature mode
 orgnization
 orgnization
 landingzone
@@ -13,6 +14,7 @@ aws sso - once you create the sso in control tower it will create a role in each
 permission sets
 onprem AD can be integrate aws sso, which can authenticate users to aws accounts.- authentication and authorizatoin.
 cloudtrail lake
+aws config - control tower will enable the aws config in all the member accounts and track the resource config changes with config aggregator.
 
 
 
