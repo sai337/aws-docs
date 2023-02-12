@@ -1,7 +1,18 @@
 https://docs.aws.amazon.com/controltower/latest/userguide/drift.html?icmpid=docs_ctower_console#governance-drift
 
-guardrails:
+landingzone
+accountfactory
+guardrails - preventive, Detective controls,Proactive controls
+backup policies
+tag policies - create a s3 bucket in us-east-1 region, and attach s3 bucket policy which will create a compliance report in the s3 bucket. the report contain resources which doen't have tags in the aws accounts.
+service control polices. when can also create cost allocation tags which will create the detail billing report in the cost explorer.
+aws sso - once you create the sso in control tower it will create a role in each account 
+permission sets
+onprem AD can be integrate aws sso, which can authenticate users to aws accounts.- authentication and authorizatoin.
 
-preventive 
-Detective controls
-Proactive controls
+
+
+
+we can setup a centrailized securityhub in payer account which will create alerts with email notification.
+
+
