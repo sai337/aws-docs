@@ -22,7 +22,7 @@ control tower market place - https://aws.amazon.com/marketplace/solutions/contro
 
 to do's:
 
-cost savings - https://aws.amazon.com/blogs/compute/10-things-you-can-do-today-to-reduce-aws-costs/
+cost savings - https://aws.amazon.com/blogs/compute/10-things-you-can-do-today-to-reduce-aws-costs/ - use the cost explorer to create the underutilized ec2 instances report, stopped ec2 instances and use s3lens for list of s3 buckets lifecycle suggestions.
 lambda cost savings - 
 
 securityhub - we can setup a centrailized securityhub in payer account which will create alerts with email notification.
