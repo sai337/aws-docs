@@ -2,6 +2,9 @@
 
 https://explore.skillbuilder.aws/pages/16/learner-dashboard
 
+# CheatSheet
+https://digitalcloud.training/category/aws-cheat-sheets/aws-solutions-architect-professional/
+
 ##
 https://jayendrapatil.com/coupons/aws-certification-exam-coupons/
 ##
