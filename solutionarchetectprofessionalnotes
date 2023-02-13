@@ -1,3 +1,5 @@
+network connectivity stratagies: vpc peering, direct connect, transit gateway, private link, site-to-site vpn, aws vpn
+
 security controls:
 
 foundations
