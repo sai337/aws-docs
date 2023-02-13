@@ -7,4 +7,7 @@ it will scan the lambdas and its layers for the network exposures.
 it scan the ecr repositories and look for vulnerabilities in the images, once you create the ecr repo a basic scanning is enabled, but with the inspector it wull enable advnace scanning.
 
 
+we can find the vulnerabilities in inspector console or with api, if the securityhub is enabled we can also find them in securityhub.
+
+
 
