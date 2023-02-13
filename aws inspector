@@ -1,0 +1,10 @@
+inspector will scan ec2 instances if they have ssm agent installed, lambda and its layers and ecr repository.
+
+we can activate inspector in a single account or in multi account scan with aws orgnization.
+
+it will scan the ec2 instance if they have aws ssm agent installed and look for network exposures and common vulnerability exposures.
+it will scan the lambdas and its layers for the network exposures.
+it scan the ecr repositories and look for vulnerabilities in the images, once you create the ecr repo a basic scanning is enabled, but with the inspector it wull enable advnace scanning.
+
+
+
