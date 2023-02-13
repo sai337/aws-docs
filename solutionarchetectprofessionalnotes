@@ -1,5 +1,7 @@
 security controls:
 
 foundations
-identity access managment - iam access analyzer, iam policies, roles, scp, resource policies and bucket policies.
-Data protection
+identity access managment - iam access analyzer, iam policies, roles, scp, resource policies and bucket policies - iam , iam identity center(sso), cognito and sts
+Data protection - KMS, cloudHSM
+
+applation security: like sql injection or cross site - network firewall, waf, sheild and firewall manager
