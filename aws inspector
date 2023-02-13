@@ -9,5 +9,39 @@ it scan the ecr repositories and look for vulnerabilities in the images, once yo
 
 we can find the vulnerabilities in inspector console or with api, if the securityhub is enabled we can also find them in securityhub.
 
+Amazon Inspector evaluates the following configurations when scanning for network paths:
 
+Amazon EC2 instances
+
+AWS Lambda functions
+
+Application Load Balancers
+
+Direct Connect
+
+Elastic Load Balancers
+
+Elastic Network Interfaces
+
+Internet Gateways
+
+Network Access Control Lists
+
+Route Tables
+
+Security Groups
+
+Subnets
+
+Virtual Private Clouds
+
+Virtual Private Gateways
+
+VPC endpoints
+
+VPC gateway endpoints
+
+VPC peering connections
+
+VPN connections
 
