@@ -25,7 +25,7 @@ to do's:
 cost savings - https://aws.amazon.com/blogs/compute/10-things-you-can-do-today-to-reduce-aws-costs/ - use the cost explorer to create the underutilized ec2 instances report, stopped ec2 instances and use s3lens for list of s3 buckets lifecycle suggestions.
 lambda cost savings - 
 
-setup s3 storage lens - this is to give the usage and objects stats of s3 buckets across the org, we can setup the s3 storage lens in each individual account or in the control tower account 
+setup s3 storage lens - this is to give the usage and objects stats of s3 buckets across the org, we can setup the s3 storage lens in each individual account or in the control tower account. we can not use the payer account has delegated account for s3 storage lens and we can use any member account. once activate the s3 storage lens it will create the default dashboard with buckets and its object info from across orgnization account. If needed we can enable the advance metric dashboard.
 
 securityhub - we can setup a centrailized securityhub in payer account which will create alerts with email notification.
 
