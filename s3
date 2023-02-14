@@ -1,10 +1,10 @@
-s3- access points - 
+s3- access points - access makes the life easy by making bucket policy east, with access points we can redesign the bucket policy easily.access points can be accessible with in the vpc or can be accesible from the internet .
 s3 presigned url 
 staticwebsitehosting 
 s3 lifecycle rules
-s3 object versioing 
-s3 replication 
-s3 cors
+s3 object versioing - 
+s3 replication - replication to other account buckets 
+s3 cors - cross region replication - 
 mount s3 to ec2 - 
-s3 lens
+s3 lens - to get the usage metrics from the acorss org , it should enabled in payer account. we can add one of the member account as the delegated for centraal account for s3 lens.
 
