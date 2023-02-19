@@ -1,3 +1,6 @@
+# aws certification 
+https://www.aws.training/Certification
+
 # aws-docs
 
 https://explore.skillbuilder.aws/pages/16/learner-dashboard
