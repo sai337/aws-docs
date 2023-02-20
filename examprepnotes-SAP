@@ -1,9 +1,16 @@
 Regions, Availability Zones, Local Zones, edge locations, and Regional edge caches
 Amazon Virtual Private Cloud (Amazon VPC), AWS Direct Connect, AWS Client VPN, AWS Site-to-Site VPN, AWS Transit Gateway, and AWS PrivateLink. 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
-multiregion fundamentals:
+multiregion fundamentals whietepaper:
 https://docs.aws.amazon.com/whitepapers/latest/aws-multi-region-fundamentals/multi-region-fundamental-1-understanding-the-requirements.html
+https://docs.aws.amazon.com/whitepapers/latest/availability-and-beyond-improving-resilience/cap-theorem.html
 RTO
 RPO -
 hotstandby, warm standby and pilot light
+
+understanding the data: and its access pattenrs
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------
+Hybrid DNS whietepaper:
+
+https://docs.aws.amazon.com/whitepapers/latest/hybrid-cloud-dns-options-for-vpc/route-53-resolver-endpoints-and-forwarding-rules.html
