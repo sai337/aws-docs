@@ -18,3 +18,13 @@ understanding the data: and its access pattenrs
 Hybrid DNS whietepaper:
 
 https://docs.aws.amazon.com/whitepapers/latest/hybrid-cloud-dns-options-for-vpc/route-53-resolver-endpoints-and-forwarding-rules.html
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Hybrid connectivity from onprem-aws, branch office to data center:
+
+
+https://d1.awsstatic.com/whitepapers/hybrid-connectivity-aws.pdf
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
