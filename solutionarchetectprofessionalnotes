@@ -43,5 +43,5 @@ service mesh: communication between the services in eks.Typically, a service mes
 
 Distributed data managment: step functions and kinesis, 
 
-Asynchrones message and event passing: with sqs, sna and event bridge. these are decoupled arch one service down time will not impact on others where as in distributed arch one service down time will impact on other services.
+Asynchrones message and event passing: with sqs, sns, amazon mqwhich can be used if existing software is using open standard APIs and protocols for messaging, including JMS, NMS, AMQP, STOMP, MQTT, and WebSocket. and event bridge. these are decoupled arch one service down time will not impact on others where as in distributed arch one service down time will impact on other services.
 -----------------------------------------------------------------------------------------------------------------------------------
