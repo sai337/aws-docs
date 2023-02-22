@@ -7,3 +7,33 @@ identity access managment - iam access analyzer, iam policies, roles, scp, resou
 Data protection - KMS, cloudHSM
 
 applation security: like sql injection or cross site - network firewall, waf, sheild, sheild, firewall manager 
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+white paper: Implementing Microservices on AWS
+
+RDS - 6 engines- can not autoscale on demand
+nosql - autoscale on demand - dynamoDB, DynamoDB DAX
+
+api implementaion -> cloudfront -> apigateway -> backed ec2, lambda, ecs or eks
+Requests from mobile devices, websites, or other backend services are routed to the closest CloudFront Point of Presence (PoP) to minimize latency and provide optimum user experience.
+
+
+serverless microservices:
+
+ui -> cloudfront - s3, backend -> apigateway-> lambda , Db-> aurora, DynamoDB
+
+Disaster recovery:
+typical microservices applications are implemented using the Twelve-Factor Application patterns
+
+Recovery time objective is the maximum acceptable delay between the interruption of service and restoration of service. This objective determines what is considered an acceptable time window when service is unavailable and is defined by the organization.
+
+Recovery point objective is the maximum acceptable amount of time since the last data recovery point. This objective determines what is considered an acceptable loss of data between the last recovery point and the interruption of service and is defined by the organization.
+
+high availabity:
+
+eks - runs control plane runs , 2 api servers , 3 etcd across az's
+lambdaa - runs across az's incase of service interruptions in any az.
+
+deploying lambda based apps: aws sam - AWS SAM is natively supported by AWS CloudFormation and defines a simplified syntax for expressing serverless resources. To deploy your application, specify the resources you need as part of your application, along with their associated permissions policies in a AWS CloudFormation template, package your deployment artifacts, and deploy the template. Based on AWS SAM, SAM Local is an AWS Command Line Interface (AWS CLI) tool that provides an environment for you to develop, test, and analyze your serverless applications locally before uploading them to the Lambda runtime. You can use AWS SAM Local to create a local testing environment that simulates the AWS runtime environment.
+-----------------------------------------------------------------------------------------------------------------------------------
