@@ -57,4 +57,8 @@ Options for log analysis on AWS: Amazon CloudWatch Logs Insights enables you to 
 
 logs from aws services to -> cloudwatch-> opensearch -> kibana
 logs from aws services to -> cloudwatch -> kinesis data firehouse -> redshift -> amazon quicksight
------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Web Application Hosting in the AWS Cloud:
+
+
