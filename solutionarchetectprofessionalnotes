@@ -45,4 +45,6 @@ Distributed data managment: step functions and kinesis,
 
 Asynchrones message and event passing: with sqs, sns, amazon mqwhich can be used if existing software is using open standard APIs and protocols for messaging, including JMS, NMS, AMQP, STOMP, MQTT, and WebSocket. and event bridge. these are decoupled arch one service down time will not impact on others where as in distributed arch one service down time will impact on other services.
 Amazon MQ manages the administration and maintenance of ActiveMQ, a popular open-source message broker. The underlying infrastructure is automatically provisioned for high availability and message durability to support the reliability of your applications.
+
+Orchestration and state management: step funtions, it will retry the if the state fails and uses amazon state language.Step Functions is part of the AWS serverless platform and supports orchestration of Lambda functions as well as applications based on compute resources, such as Amazon EC2, Amazon EKS, Amazon ECS, and additional services like Amazon SageMaker and AWS Glue. Step Functions manages the operations and underlying infrastructure for you to help ensure that your application is available at any scale.
 -----------------------------------------------------------------------------------------------------------------------------------
