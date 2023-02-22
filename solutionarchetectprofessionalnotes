@@ -59,6 +59,6 @@ logs from aws services to -> cloudwatch-> opensearch -> kibana
 logs from aws services to -> cloudwatch -> kinesis data firehouse -> redshift -> amazon quicksight
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Web Application Hosting in the AWS Cloud:
+white papaer: Web Application Hosting in the AWS Cloud:
 
 Additional security features: shield - ddos , aws waf and firewall manager.
