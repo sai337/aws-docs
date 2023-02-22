@@ -61,4 +61,4 @@ logs from aws services to -> cloudwatch -> kinesis data firehouse -> redshift ->
 
 Web Application Hosting in the AWS Cloud:
 
-
+Additional security features: shield - ddos , aws waf and firewall manager.
