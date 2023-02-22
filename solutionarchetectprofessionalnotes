@@ -38,4 +38,8 @@ lambdaa - runs across az's incase of service interruptions in any az.
 deploying lambda based apps: aws sam - AWS SAM is natively supported by AWS CloudFormation and defines a simplified syntax for expressing serverless resources. To deploy your application, specify the resources you need as part of your application, along with their associated permissions policies in a AWS CloudFormation template, package your deployment artifacts, and deploy the template. Based on AWS SAM, SAM Local is an AWS Command Line Interface (AWS CLI) tool that provides an environment for you to develop, test, and analyze your serverless applications locally before uploading them to the Lambda runtime. You can use AWS SAM Local to create a local testing environment that simulates the AWS runtime environment.
 
 DNS based service discovery: eks, external DNS or cloudmap, ecs -> a registry of service names using the Route 53 Auto Naming API.
+
+service mesh: communication between the services in eks.Typically, a service mesh is split into a data plane and a control plane. The data plane consists of a set of intelligent proxies that are deployed with the application code as a special sidecar proxy that intercepts all network communication between microservices. The control plane is responsible for communicating with the proxies.
+
+Distributed data managment: step functions and kinesis, 
 -----------------------------------------------------------------------------------------------------------------------------------
