@@ -42,4 +42,6 @@ DNS based service discovery: eks, external DNS or cloudmap, ecs -> a registry of
 service mesh: communication between the services in eks.Typically, a service mesh is split into a data plane and a control plane. The data plane consists of a set of intelligent proxies that are deployed with the application code as a special sidecar proxy that intercepts all network communication between microservices. The control plane is responsible for communicating with the proxies.
 
 Distributed data managment: step functions and kinesis, 
+
+Asynchrones message and event passing: with sqs, sna and event bridge. these are decoupled arch one service down time will not impact on others where as in distributed arch one service down time will impact on other services.
 -----------------------------------------------------------------------------------------------------------------------------------
