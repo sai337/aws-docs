@@ -70,4 +70,11 @@ setup a agent in 8 vcpu and 32 memory, create a data transfer task and monitor i
 
 from the data center server data sync agent will create the data on NFS protocal and send data to aws task with a high band with network connectivity setup such as WAN or direct connect over the TLS and copy the data to s3 or efs.
 
+what kind of app's can be supported with data sync:
+
+active application data: means the large amount data , which is not increase or decresse which is constance data
+which is data processing applications: example, data processed by diff applications in real time.
+
+scenario1: lets say an app is produsing the data to NFS  which you want to copy to aws using data sync. in this case using data agent move the data to s3, and on the same note if your app want to access the data from s3 back onprem , we can setup a aws storage gateway on aws and aws file gateway on onprem to send the data to application.
+
 
