@@ -62,3 +62,12 @@ logs from aws services to -> cloudwatch -> kinesis data firehouse -> redshift ->
 white papaer: Web Application Hosting in the AWS Cloud:
 
 Additional security features: shield - ddos , aws waf and firewall manager.
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+Data Sync notes: to move data from onprem and aws and vice versa.
+
+
+setup a agent in 8 vcpu and 32 memory, create a data transfer task and monitor it with cloudwatch.
+
+
+
+
