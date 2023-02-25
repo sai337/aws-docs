@@ -68,6 +68,6 @@ Data Sync notes: to move data from onprem and aws and vice versa.
 
 setup a agent in 8 vcpu and 32 memory, create a data transfer task and monitor it with cloudwatch.
 
-
+from the data center server data sync agent will create the data on NFS protocal and send data to aws task with a high band with network connectivity setup such as WAN or direct connect over the TLS and copy the data to s3 or efs.
 
 
