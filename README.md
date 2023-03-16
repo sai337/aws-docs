@@ -1,3 +1,16 @@
+####### To-Do's ########
+1. cloudmap -practice
+2. aws app stream and diff with workspace
+3. aws amplify
+4. aws ssm 
+5. elastic bean stalk
+6. app runner
+7. aws appconfig
+8. aws batch jobs
+9. shared vpc model
+
+
+
 # aws certification 
 https://www.aws.training/Certification
 
