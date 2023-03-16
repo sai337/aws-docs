@@ -3,11 +3,16 @@
 2. aws app stream and diff with workspace
 3. aws amplify
 4. aws ssm 
-5. elastic bean stalk
-6. app runner
+5. elastic bean stalk (deploy jar or image and access it from browser)
+6. app runner (what can be deployed, ex: jar or image and access it from browser)
 7. aws appconfig
 8. aws batch jobs
 9. shared vpc model
+10. use of apikey's in apigateway,verify that apikey with idp or with congnito
+11. what is congnito authentication and authorization 
+12. aws kinesis workflow - how the data comes to kinesis and processed it with further
+13. aws data pipeline and data services
+
 
 
 
