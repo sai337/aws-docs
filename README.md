@@ -12,7 +12,7 @@
 11. what is congnito authentication and authorization 
 12. aws kinesis workflow - how the data comes to kinesis and processed it with further
 13. aws data pipeline and data services
-14. aws sam template and cloudformation
+14. aws sam template and cloudformation - https://catalog.workshops.aws/complete-aws-sam/en-US/module-3-manual-deploy/10-bucket
 
 
 
