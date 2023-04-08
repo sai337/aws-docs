@@ -12,6 +12,8 @@
 11. what is congnito authentication and authorization 
 12. aws kinesis workflow - how the data comes to kinesis and processed it with further
 13. aws data pipeline and data services
+14. aws sam template and cloudformation
+
 
 
 
