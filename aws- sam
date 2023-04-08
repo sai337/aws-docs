@@ -1,0 +1,30 @@
+aws sam: https://catalog.workshops.aws/complete-aws-sam/en-US/module-3-manual-deploy/10-bucket
+
+template: 
+
+
+transform: AWS::Serverless-2016-10-31
+Globals:
+Description:
+Metadata:
+Parameters:
+Mappings:
+Conditions:
+Resources:
+
+  AWS::Serverless::Api - apigateway resources
+  AWS::Serverless::Application - sam application, collectino of resoures
+  AWS::Serverless::Connector - connecition between the sam resources
+  AWS::Serverless::Function - lambda funtion
+  AWS::Serverless::HttpApi.      - creates http apis
+  AWS::Serverless::LayerVersion. - lambda layer
+  AWS::Serverless::SimpleTable.  - DynamoDB Table
+  AWS::Serverless::StateMachine. - Step funtion
+
+
+Outputs:
+
+
+
+install sam cli:
+
