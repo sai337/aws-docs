@@ -56,6 +56,8 @@ sed
 awk
 unzip zipfilename
 tar -zxvf tarfilename
+chown user:group filename
+chmod 777 filename
 
 
 read 4 - r - write 2-w- execute 1-x
