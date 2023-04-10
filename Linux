@@ -5,7 +5,7 @@ rmdir
 useradd
 userdel
 ps -ef 
-ps aux
+ps aux filename - to see the list of open files
 grep 
 locate
 find -filetype -f filename
