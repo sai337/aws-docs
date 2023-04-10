@@ -1,0 +1,62 @@
+cd
+pwd
+mkdir
+rmdir
+useradd
+userdel
+ps -ef 
+ps aux
+grep 
+locate
+find -filetype -f filename
+lsof -p pid
+yum search repolist
+nslookup
+telnet 
+ping
+traceroute
+man
+tail -f 
+head 
+sudo -i
+symlink -ln -s 
+unlink - 
+id
+uptime
+top
+htop
+grep
+grep -r filename - to search recursively 
+kill -9 pid
+tee
+rsync 
+scp 
+mv 
+cp 
+history
+clear
+uname -a
+uname -r
+df -hk
+lsblk
+wc -l
+date
+pwd
+whoami
+whereis
+which
+free -m , free -g
+w - displays who is online
+#!  - shebang - 
+
+wget -O filename https://url 
+curl -k - k ignores the ssl 
+curl -vk https://,http://
+sed
+awk
+unzip zipfilename
+tar -zxvf tarfilename
+
+
+read 4 - r - write 2-w- execute 1-x
+user - group - other
