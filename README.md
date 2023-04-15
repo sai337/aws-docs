@@ -23,6 +23,19 @@
 23. aws quicksight
 24. route 53 record types - what is ns servers
 25. 
+#########################################################
+26. Lambda:
+
+1 M invocations or 400k GB's of compute 
+advanced level api logging 
+lambda calcultor - https://s3.amazonaws.com/lambda-tools/pricing-calculator.html
+lambda power tools
+asynchrous invocations which is - invokig the lambda api 
+synchoros invocation - which is from other aws services s3 and sqs
+lamba insights and logs
+
+lambda memory 128 GB to 10 GB
+Lambda execution: Duration, billed Duration and Memory Size
 
 
 ############Aws getting started guides ############
