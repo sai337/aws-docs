@@ -13,7 +13,14 @@
 12. aws kinesis workflow - how the data comes to kinesis and processed it with further
 13. aws data pipeline and data services
 14. aws sam template and cloudformation - https://catalog.workshops.aws/complete-aws-sam/en-US/module-3-manual-deploy/10-bucket
-
+15. apigateway apikey & usage plan & integrawition with other services & api proxy & api gateway cors & api gateway custom domain with route 53 & diff http api and rest api
+17. aws opsworks 
+18. sqs - fifo - lifo - visibility timeout 
+19. sns fanout archetecture - sns will invoke multiple endpoints (aws services)
+20. aws app config 
+21. aws workspaces
+22. appstream2.0
+23. aws quicksight
 
 
 ############Aws getting started guides ############
