@@ -21,6 +21,8 @@
 21. aws workspaces
 22. appstream2.0
 23. aws quicksight
+24. route 53 record types - what is ns servers
+25. 
 
 
 ############Aws getting started guides ############
