@@ -1,0 +1,14 @@
+Domain.com
+username: awspractice12986067
+password: Opsncloud@1234
+
+
+certificate termination at nlb and alb
+apache velocity template 
+pre allocate LCu's with alb
+
+pre warm the loadbalancer to handle the spike in traffic which is - LCU 
+and scheduled autoscaling with ASG
+RDS proxy to handle the spike in request and delete or ingore the unhanlding or unprocessed connections.
+
+RUN IEM - Infrastrcture event managmement - to test the infrastrcture to whether its handle the traffic
