@@ -22,9 +22,11 @@
 22. appstream2.0
 23. aws quicksight
 24. route 53 record types - what is ns servers
-25. 
-#########################################################
-26. Lambda:
+25. sending cloudwatch logs to kinesis fireshouse or lambda or opensearch in same or other accounts with cloudwatch subcription filter, once a cloudwatch log get created it added to subcription to push the logs.
+26. aws licese manager to share the marker place subcriptions to control tower orgnization, which will help in show cost of subcribed licesences across the control tower.
+27. share the amis with orgnization - choose the ami, go to options and share it with orgnization.
+##############################################################################################################################
+Lambda:
 
 1 M invocations or 400k GB's of compute 
 advanced level api logging 
