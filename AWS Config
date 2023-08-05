@@ -17,3 +17,5 @@ In order to make an account pci-dss complaint, we need to write our own rules an
 also need to enable the config recorder in all the supported services and regions.
 need to enable the aws conig for supported services and for global services.
 
+
+https://aws.amazon.com/compliance/services-in-scope/
