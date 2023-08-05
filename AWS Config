@@ -1,1 +1,19 @@
 
+aws config will record the resource config changes and store them and send email notification with lambda.
+
+we can use the aws given default config rules or else can develop our own.
+
+ in order to record the config changes in aws account, first aws config recorder needs to enable. once it enable when a specific resources config changes it will invoke the sns notifition which will invoke lambda and send email notification.
+
+in control tower env, config recorder changes will be stored in log archive account s3 bucket and audit account sns topic will send email alert about the non complaint resources.
+
+
+complaint , non complaint.
+
+
+Even to make an aws account pci-dss complaint, aws config will record the supported 58 services and look for changes in resources as defied in the config rule.
+If any resouce get non complaint, as per rule sns will invoke lambda which will send an email notification.
+In order to make an account pci-dss complaint, we need to write our own rules and apply them.
+also need to enable the config recorder in all the supported services and regions.
+need to enable the aws conig for supported services and for global services.
+
