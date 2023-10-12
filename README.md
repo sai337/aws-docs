@@ -25,6 +25,7 @@
 25. sending cloudwatch logs to kinesis fireshouse or lambda or opensearch in same or other accounts with cloudwatch subcription filter, once a cloudwatch log get created it added to subcription to push the logs.
 26. aws licese manager to share the marker place subcriptions to control tower orgnization, which will help in show cost of subcribed licesences across the control tower.
 27. share the amis with orgnization - choose the ami, go to options and share it with orgnization.
+28. aws data pipelines - https://www.ml4devs.com/articles/scalable-efficient-big-data-analytics-machine-learning-pipeline-architecture-on-cloud/
 ##############################################################################################################################
 Lambda:
 
