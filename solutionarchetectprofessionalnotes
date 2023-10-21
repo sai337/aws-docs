@@ -209,6 +209,8 @@ create a domain in thirdparty domain service, create the public domain in aws an
 
 
 install dig: dig +trace domainname
+
+subdomain delegation: https://youtu.be/COaARRYXdts?si=FAZT_G8i6OO7bHtb, handle subbomains with one primary domain
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
