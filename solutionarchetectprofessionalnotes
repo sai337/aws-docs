@@ -177,6 +177,42 @@ refactoring to cloudnative  archetecture
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+route53:
+
+dns name service:
+
+can route the traffic to public and private domains
+
+routing policies:
+
+simple routing policy; route traffic to single resource 
+weight routing policy: use for active-passive failover - canary or blue green deployments
+failover routing policy:
+latency routing policy:
+multivale answer routing:
+geolocation routing:
+route traffic based on geolocation of users
+geoproximity routing:
+route more or less traffic to a resource based on geolocation with bias 
+
+route 53 dns requests for external entities:
+
+route 53 record types:
+
+what is name server in route53:
+
+route 53 resolver rules and resolver endpoints:
+
+route traffic to external domains by adding name servers of aws in third pary domain server: https://youtu.be/oKiojDyAuXg?si=Q9EbKTDJuy8dYalD
+
+create a domain in thirdparty domain service, create the public domain in aws and copy the ns servers created, give the nameservers details in thirdparty domain 
+
+
+install dig: dig +trace domainname
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 
 
