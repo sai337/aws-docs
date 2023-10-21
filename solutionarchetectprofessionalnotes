@@ -90,6 +90,13 @@ aws data migration service
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 aws server migration service 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+aws application migration service:
+
+aws recommands aws application migraiton service (AGN) for lift and shift, can also use aws sms and aws vm export/import
+
+replatform: 
+------------------------------------------------------------------------------------------------------------------------------------------------------------
 migrate onprem application to aws (lift and shift)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -150,8 +157,21 @@ aws FXS for windows , ONTAP
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 aws app sync for live application with match updates
 
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+cloud migration staratagies:
+
+7rs of migration stratagies/aws migration service:
+retire- retain
+relocate and rehost(lift/shift)
+repurchase and replatform
+refactor 
+re-hosting with migration tools
+re-platforming with database migration service and elatic beanstalk
+refactoring to cloudnative  archetecture 
 
 
+------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
