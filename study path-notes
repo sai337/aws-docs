@@ -24,7 +24,7 @@ https://www.wellarchitectedlabs.com/operational-excellence/
 Whitepapers:
 
 Hybrid Connectivity: https://docs.aws.amazon.com/whitepapers/latest/hybrid-connectivity/hybrid-network-connections.html
-
+iot: https://docs.aws.amazon.com/wellarchitected/latest/iot-lens/fleet-provisioning-layer.html
 
 Aws arch center: https://aws.amazon.com/architecture/?cards-all.sort-by=item.additionalFields.sortDate&cards-all.sort-order=desc&awsf.content-type=*all&awsf.methodology=*all&awsf.tech-category=*all&awsf.industries=*all&awsf.business-category=*all
 
