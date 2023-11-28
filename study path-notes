@@ -17,12 +17,19 @@ wellarch labs
 https://tutorialsdojo.com/aws-certified-solutions-architect-professional-exam-guide-study-path-sap-c01-sap-c02/
 tutorail dojo cheatsheets
 
+Well arch Framework:
+
+https://www.wellarchitectedlabs.com/operational-excellence/
 
 Whitepapers:
 
 Hybrid Connectivity: https://docs.aws.amazon.com/whitepapers/latest/hybrid-connectivity/hybrid-network-connections.html
 
+Catalog workshops:
 
+https://catalog.workshops.aws/awscid/en-US
+https://catalog.workshops.aws/well-architected-operational-excellence/en-US/2-prepare/20-build-aws-health-aware-operation-change-process/1-deploy-ssm-application-environment
+https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-dashboard.html
 
 Concepts to Cover:
 
