@@ -1,0 +1,5 @@
+code pipeline can pull the code from: Codecommit, s3, ecr, githud, bitbucket, gitlab, github enterprise.
+
+codepipline can be integrated with : Codebuild and Jenkins
+
+Code pipeline can deploy the artifacts to:   appconfig, aws cloudformation, aws cloudformaiton stackset, aws codedeploy, elastic beanstalk, opsworks, service catalog, alexa skills set, ecs, ecs, blue/green, aws s3, s3 publish Dev
