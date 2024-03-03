@@ -28,3 +28,182 @@ https://d1.awsstatic.com/whitepapers/hybrid-connectivity-aws.pdf
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
+Compute savings plan 
+Ec2 instance savings plan 
+Sage maker savings plan 
+
+
+Savings plan is flexible to pricing model and that can help you reduce you bill bu up to 72%
+A warm standby DR solution is designed to achieve RPO within seconds and RTO within minutes. This approach would meet the company's requirements.
+You can use CloudWatch Synthetics to create canaries, which are configurable scripts that run on a schedule, to monitor endpoints and APIs. You could create an API canary with a GET method to determine whether the third-party service is responding as expected. Route 53 can track the alarm status and can failover to a secondary Region if needed.
+
+There are two parts to the solution. IAM Access Analyzer analyzes CloudTrail logs to determine whether external access is granted. Macie analyzes S3 buckets to check whether public objects, public buckets, or sensitive information are in Amazon S3. Both IAM Access Analyzer and Macie findings can be reported in Security Hub. Security Hub has integration with Organizations, so you can use one single Security Hub dashboard to monitor for both security issues in one place.
+
+This solution uses AWS managed services and serverless components that reduce operational overhead. Additionally, this solution is automatically scalable.
+
+Because the budget is in the management account, the developers cannot change it. An SCP cannot be overridden, even when users within the account have administrative rights.
+For more information about AWS Budgets, see AWS Budgets.
+For more information about SCPs, see Service control policies (SCPs).
+
+
+A cluster placement group would provide the required low-latency communications. Reserved instances would be the most cost-effective choice for consistent, long-running analytics processing.
+For more information about EC2 placement groups, see Placement Groups
+For more information about reserved instances, see Reserved Instances.
+
+Step Functions is a serverless service that combines Lambda functions and other AWS services to build business applications. An Express Workflow would allow multiple concurrent requests. Synchronous execution would wait for the workflow to finish to provide the response back to API Gateway.
+
+You can use WorkSpaces to provision virtual desktops for users. WorkSpaces eliminates the need to procure and deploy hardware or to install complex software. Users can access their virtual desktops from multiple devices or web browsers. You can configure WorkSpaces to automatically update software, including OS patches. This is the solution with the least operational overhead.
+
+App Runner is an AWS service that provides a fast, simple, and cost-effective way to deploy from source code or a container image directly to a scalable and secure web application in the AWS Cloud. A solution that creates a container and runs the existing order-processing application on AWS Fargate, would eliminate server management for the order-processing application. A solution that converts the database to an AWS RDS MySQL database would eliminate server management for the database tier. This solution would require very little development effort to implement.
+For more information about App Runner, see What Is AWS App Runner?
+For more information about code-based App Runner services, see App Runner Service Based on Source Code.
+For more information about AWS Fargate, see What Is AWS Fargate?
+For more information about Amazon RDS, see What Is Amazon Relational Database Service (Amazon RDS)?
+
+This solution is a good option when the client and the servers in the two VPCs have overlapping IP addresses. PrivateLink uses elastic network interfaces within the client VPC so that there are no IP address conflicts with the service provider. You can access PrivateLink endpoints over VPC peering, VPN, and AWS Direct Connect connections.
+
+Aurora global databases span multiple AWS Regions. This solution would make fast failover to another Region possible.
+For more information about Aurora global databases, see Using Amazon Aurora Global Databases.
+For more information about disaster recovery, see Using Failover in an Amazon Aurora Global Database.
+
+
+
+Aws backup stratagies;
+
+First 3 are, active/passive 
+Backup and restore 
+
+Pilot light
+
+Warm standby
+
+Active/active 
+
+
+
+Data replication to dr region for data base is amazon aurora asynchorinus replication for first 3 types of dr
+
+Data replication for active/active is dynamo db global tables
+
+
+Aws well arch framework:
+
+Operational excellence 
+Security
+Reliability
+Performance efficiency 
+Cost optimization 
+
+
+Aws ec2 placement groups:
+
+
+Aws outpost rack
+
+Aws localzone(extension of a region)
+
+Aws wavelength  - for applications single digit milli second latency
+
+Aws appstream database - to visualize  current and old data in metrics 
+
+
+Aws stepfuntions - synchronous stepfuntions can send the output to apigateway or to supported services 
+
+
+Sns - fan out (messaging pattern) (message filtering)
+
+Sqs - 
+
+Event bridge - pipe 
+
+Aws autoscaling - 
+
+https://www.youtube.com/watch?v=-1PmPuBUt7w
+
+
+Amazon macie - 
+
+Aws opensearch - 
+
+DynamoDB - regional and global tables, primary key, index key and which can serve millions of requests and supports cache mechanism 
+
+
+DynamoDB cache used with any other Databases other than ads ?
+
+Cloudfront - OAI - origin access identity /- s3. Load lancer/ apigateway
+
+Transit gateway multi region peering 
+
+S3 accerlator and multipart upload, s3 select, access point 
+
+
+
+Aws connect 
+Aws lex  - conversional AI , uses natural language processor 
+		Intent 
+                Utterances 
+                 Slot 
+                Prompt 
+
+https://www.youtube.com/watch?v=RB8yw2nzA2Q&list=PLAMHV77MSKJ7s4jE7F_k_Od8qZlFGf1BY
+
+
+Aws snow ball edge:
+
+
+Kms:
+
+Aws cloudhsm - ssl offloading
+
+Data encryption in flight is always uses - ssl/tls
+
+Data at rest is with kms/cmk 
+
+Keys managed by aws
+
+Cmk keys created customer 
+
+Asymmetric key: key that uses public and private key to encrypt and decrypt the data
+
+Symmetric keys: secret key encryption 
+
+
+Data keys: data keys are used to encrypt the data and data keys created with help of cmk 
+
+Data key of type GenerateDatakey: with public and private key
+Data key of type Datakeywithoutplaintext 
+
+We can create two types of data keys: GenerateDatakey, GenerateDatakeywithoutPlaintext 
+
+
+Aws codecatalyst
+
+
+Direct connect Connectivity options:
+
+https://medium.com/@jawad846/aws-direct-connect-vgw-tgw-b7cc35eb8943
+https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect-aws-transit-gateway.html
+
+https://docs.aws.amazon.com/whitepapers/latest/aws-direct-connect-for-amazon-connect/virtual-interfaces-vif.html
+
+
+Cloudfront:
+
+Field-level encryption adds an additional layer of security, along with HTTPS, that lets you protect specific data throughout system processing so that only certain applications can see it. Field-level encryption allows you to securely upload user-submitted sensitive information to your web servers. The sensitive information provided by your clients is encrypted at the edge closer to the user and remains encrypted throughout your entire application stack, ensuring that only applications that need the data—and have the credentials to decrypt it—are able to do so.
+
+
+
+Aws Extract: read content from image to to text 
+
+
+Aws cloudsearch - to add builtin search capabilities in website or application 
+
+How to turn off RI’s sharing to specific OU’s ?
+
+
+DNS spoofing, HTTPS spoofing, or SSL hijacking.
+
+
+
+
+
