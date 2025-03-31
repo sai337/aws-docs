@@ -11,3 +11,10 @@
 9. when creating a new private certificate with certificate authority, Date of expiration of private CA should be more than the individual private certificate. or else the private certificate status should be faield.
 10. PrivateCA  can be shared to other aws organization units using aws RAM. but before that RAM service should be enabled on control tower list of services.
 11. we can update the (add new OU to private ca and share it to with new OU)
+12. reovke the private with below command:
+
+    aws acm-pca revoke-certificate \
+     --certificate-authority-arn arn:aws:acm-pca:us-east-1:111122223333:certificate-authority/11223344-1234-1122-2233-112233445566 \ 
+     --certificate-serial serial_number \ 
+     --revocation-reason "KEY_COMPROMISE" 
+     once this completes, all the private cerrtificates issue or renewal will revoked by private CA.
