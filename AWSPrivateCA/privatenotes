@@ -1,0 +1,13 @@
+1. aws private ca doesn't care about the domain name when issuing the certificate, it can issue the certs for any domain name and it can issue the certificate even if the domain name is not exist.
+2  aws private ca can issue certs for any domain name
+3. Issued certs are active for 13 months, aws private can renew the certs if the certs are created using aws acm request certificate api or from console
+4. 1 - 1,000 certificates - $0.75
+     1,001 - 10,000 certificates - $0.35 
+     10,001+ certificates - $0.001
+5. we can create 200 certs without issues, this can be increased to unlimited after service quota request.
+6. each certificate can have SANS- 10 default, 100 after survive quota request.
+7. We can disble the private CA, so that certs issued by private CA can not be revoked right away. certs can be valid until their expiration date.
+8. OCSP - certs can be revooked
+9. when creating a new private certificate with certificate authority, Date of expiration of private CA should be more than the individual private certificate. or else the private certificate status should be faield.
+10. PrivateCA  can be shared to other aws organization units using aws RAM. but before that RAM service should be enabled on control tower list of services.
+11. we can update the (add new OU to private ca and share it to with new OU)
