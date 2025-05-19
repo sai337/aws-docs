@@ -1,0 +1,551 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template for CoAuto Tagging Config Rule with Lambda Remediation
+
+Parameters:
+  ConfigMaximumExecutionFrequency:
+    Type: String 
+    Description: Frequency for config to evaluate the resources 
+    AllowedValues:
+      - One_Hour
+      - Three_Hours
+      - Six_Hours
+      - Twelve_Hours
+      - TwentyFour_Hours
+#   ComplianceResourceTypes:
+#     Type: CommaDelimitedList
+#     Description: List of resource types to scope the Config rule
+
+Resources:
+  ConfigAutoTaggingRuleDetectorRole:
+    Type: AWS::IAM::Role
+    Properties:
+      ManagedPolicyArns: 
+        - 'arn:aws:iam::aws:policy/AmazonSQSFullAccess'
+      RoleName: config-autotagging-rule-detector-role
+      Path: /service-role/
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+  
+  ConfigAutoTaggingRuleDetectorBasicExecutionPolicyAttachment:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: LambdaBasicExecution
+      Roles:
+        - !Ref ConfigAutoTaggingRuleDetectorRole
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+            Resource: "*"
+  ConfigAutoTaggingRuleDetectorSSMConfigPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: ssm-config-permissions
+      Roles:
+        - !Ref ConfigAutoTaggingRuleDetectorRole
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - ssm:GetParameter
+              - ssm:GetParameters
+              - ssm:GetParametersByPath
+            Resource: "arn:aws:ssm:*:*:parameter/auto-tagging/*"
+          - Effect: Allow
+            Action:
+              - config:PutEvaluations
+            Resource: "*"
+  ConfigRuleLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.lambda_handler
+      Role: !GetAtt ConfigAutoTaggingRuleDetectorRole.Arn
+      FunctionName: config-autotagging-rule-detector
+      Runtime: python3.12
+      MemorySize: 128
+      Timeout: 30
+      DeadLetterConfig:
+        TargetArn: !GetAtt RemediationDLQ.Arn
+      Code:
+        # S3Bucket: !Ref LambdaCodeBucket
+        # S3Key: !Ref LambdaCodeKey
+        ZipFile: |
+          import boto3
+          import json
+          
+          ssm = boto3.client('ssm')
+          config = boto3.client('config')
+          
+          def lambda_handler(event, context):
+              # Extract the invoked resource from the AWS Config event
+              invoking_event = json.loads(event['invokingEvent'])
+              configuration_item = invoking_event['configurationItem']
+              print(configuration_item)
+              
+              # Get the current tags of the resource
+              current_tags = configuration_item.get('tags', {})
+              
+              # Retrieve required tags from SSM Parameter Store
+              required_tags = get_required_tags()
+              
+              # Validate tags
+              compliance_type, annotation = validate_tags(current_tags, required_tags)
+              
+              # Put evaluation results
+              config.put_evaluations(
+                  Evaluations=[
+                      {
+                          'ComplianceResourceType': configuration_item['resourceType'],
+                          'ComplianceResourceId': configuration_item['resourceId'],
+                          'ComplianceType': compliance_type,
+                          'Annotation': annotation,
+                          'OrderingTimestamp': configuration_item['configurationItemCaptureTime']
+                      },
+                  ],
+                  ResultToken=event['resultToken']
+              )
+          
+          def get_required_tags():
+              required_tags = {}
+              paginator = ssm.get_paginator('get_parameters_by_path')
+              for page in paginator.paginate(Path='/auto-tagging/mandatory/', Recursive=True):
+                  for param in page['Parameters']:
+                      key = param['Name'].split('/')[-1]
+                      required_tags[key] = param['Value']
+              return required_tags
+          
+          def validate_tags(current_tags, required_tags):
+              missing_tags = []
+              incorrect_tags = []
+              
+              for key, value in required_tags.items():
+                  if key not in current_tags:
+                      missing_tags.append(key)
+                  elif current_tags[key] != value:
+                      incorrect_tags.append(f"{key} (expected: {value}, got: {current_tags[key]})")
+              
+              if missing_tags or incorrect_tags:
+                  compliance_type = 'NON_COMPLIANT'
+                  annotation = "Missing tags: " + ", ".join(missing_tags) + "." if missing_tags else ""
+                  annotation += " Incorrect tags: " + ", ".join(incorrect_tags) + "." if incorrect_tags else ""
+                  annotation = annotation.strip()
+              else:
+                  compliance_type = 'COMPLIANT'
+                  annotation = "All required tags are present and correct."
+                  
+              print(compliance_type)
+              print(annotation)
+              
+              return compliance_type, annotation 
+
+  ConfigRuleLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref ConfigRuleLambdaFunction
+      Principal: config.amazonaws.com
+
+  ConfigRule:
+    Type: AWS::Config::ConfigRule
+    Properties:
+      ConfigRuleName: autotagging-required-tags-rule
+      Description: A custom rule to check for required tags
+      MaximumExecutionFrequency: !Ref ConfigMaximumExecutionFrequency
+      InputParameters:
+        tag1Key: AppName
+        tag2Key: SupportOwner
+        tag3Key: AppOwner
+        tag4Key: ImpactArea
+        tag5Key: Environment
+        tag6Key: BusinessUnit
+      Source:
+        Owner: CUSTOM_LAMBDA
+        SourceIdentifier: !GetAtt ConfigRuleLambdaFunction.Arn
+        SourceDetails:
+          - EventSource: aws.config
+            MessageType: ConfigurationItemChangeNotification
+          - EventSource: aws.config
+            MessageType: OversizedConfigurationItemChangeNotification
+      Scope:
+        # ComplianceResourceTypes: !Ref ComplianceResourceTypes
+        ComplianceResourceTypes: 
+          - "AWS::EC2::SecurityGroup"
+          - "AWS::EC2::Instance"
+          - "AWS::EC2::Image"
+          - "AWS::EC2::Fleet"
+          - "AWS::EC2::KeyPair"
+          - "AWS::EC2::LaunchTemplate"
+          - "AWS::EC2::RouteTable"
+          - "AWS::EC2::Snapshot"
+          - "AWS::EC2::Subnet"
+          - "AWS::EC2::Vpc"
+          - "AWS::EC2::VpcEndpoint"
+          - "AWS::EC2::Volume"
+          - "AWS::S3::Bucket"
+          - "AWS::S3::MultipartUpload"
+          - "AWS::EKS::Cluster"
+          - "AWS::ACM::Certificate"
+          - "AWS::RDS::DBInstance"
+          - "AWS::RDS::DBSnapshot"
+          - "AWS::RDS::DBCluster"
+          - "AWS::RDS::DBClusterSnapshot"
+          - "AWS::ElasticLoadBalancingV2::LoadBalancer"
+          - "AWS::ElasticLoadBalancingV2::Listener"
+          - "AWS::ElasticLoadBalancingV2::TargetGroup"
+          - "AWS::ElasticLoadBalancingV2::TrustStore"
+          - "AWS::AutoScaling::AutoScalingGroup"
+          - "AWS::AutoScaling::LaunchConfiguration"
+          - "AWS::DynamoDB::Table"
+          - "AWS::CloudFront::Distribution"
+          - "AWS::Lambda::Function"
+          - "AWS::ApiGateway::RestApi"
+          - "AWS::ApiGatewayV2::Stage"
+          - "AWS::ApiGatewayV2::Api"
+          - "AWS::ApiGateway::DomainName"
+          - "AWS::ApiGateway::VpcLink"
+          - "AWS::SQS::Queue"
+          - "AWS::KMS::Key"
+          - "AWS::SecretsManager::Secret"
+          - "AWS::SNS::Topic"
+          - "AWS::ECR::Repository"
+          - "AWS::ECS::Cluster"
+          - "AWS::ECS::Service"
+          - "AWS::ECS::TaskSet"
+          - "AWS::Kinesis::Stream"
+          - "AWS::KinesisFirehose::DeliveryStream"
+          - "AWS::MSK::Cluster"
+          - "AWS::EKS::FargateProfile"
+          - "AWS::WAF::Rule"
+          - "AWS::FSx::Backup"
+          - "AWS::FSx::DataRepositoryTask"
+          - "AWS::FSx::FileSystem"
+          - "AWS::FSx::FileCache"
+          - "AWS::FSx::Volume"
+          - "AWS::ElasticBeanstalk::Application"
+          - "AWS::ElasticBeanstalk::ApplicationVersion"
+          - "AWS::ElasticBeanstalk::ConfigurationTemplate"
+          - "AWS::ElasticBeanstalk::Environment"
+          - "AWS::Backup::BackupPlan"
+          - "AWS::Backup::BackupSelection"
+          - "AWS::Backup::BackupVault"
+          - "AWS::Backup::ReportPlan"
+          - "AWS::Backup::RestoreSelection"
+          - "AWS::Backup::Framework"
+          - "AWS::Backup::RestoreTestingPlan"
+          - "AWS::Redshift::Cluster"
+          - "AWS::Redshift::ClusterSnapshot"
+          - "AWS::Redshift::ClusterParameterGroup"
+          - "AWS::Redshift::ClusterSubnetGroup"
+          - "AWS::Redshift::EventSubscription"
+          - "AWS::Redshift::HsmConfiguration"
+          - "AWS::Redshift::HsmClientCertificate"
+          - "AWS::ElastiCache::Snapshot"
+          - "AWS::ElastiCache::User"
+          - "AWS::ElastiCache::UserGroup"
+          - "AWS::ElastiCache::ParameterGroup"
+          - "AWS::ElastiCache::SubnetGroup"
+          - "AWS::ElastiCache::Cache"
+          - "AWS::ElastiCache::CacheCluster"
+          - "AWS::ElastiCache::GlobalReplicationGroup"
+          - "AWS::ElastiCache::ReplicationGroup"
+          - "AWS::ElastiCache::SecurityGroup"
+          - "AWS::ElastiCache::ServerlessCache"
+          - "AWS::OpenSearchService::Domain"
+          - "AWS::Glue::Connection"
+          - "AWS::Glue::Crawler"
+          - "AWS::Glue::Database"
+          - "AWS::Glue::BlueprintUploadUrl"
+          - "AWS::Glue::Registry"
+          - "AWS::Glue::Schema"
+  RemediationQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: config-autotagging-remediation-queue
+      MessageRetentionPeriod: 1209600
+      ReceiveMessageWaitTimeSeconds: 20
+      VisibilityTimeout: 360
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt RemediationDLQ.Arn
+        maxReceiveCount: 3
+
+  RemediationDLQ:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: config-autotagging-remediation-dlq
+      # KmsMasterKeyId: alias/aws/sqs
+
+  RemediationQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+        - !Ref RemediationQueue
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Action: sqs:SendMessage
+            Resource: !GetAtt RemediationQueue.Arn
+            Condition:
+              ArnEquals:
+                aws:SourceArn: !Ref ConfigRuleRemediationRule
+
+  ConfigRuleRemediationRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: config-autotagging-remediation-rule
+      Description: Config Autotagging Remediation Rule
+      Targets: 
+        - Arn: !GetAtt RemediationQueue.Arn
+          Id: 'SendToSQS'
+      EventPattern:
+        DetailType:
+          - Config Rules Compliance Change
+        Source:
+          - aws.config
+        Detail:
+          messageType:
+            - ComplianceChangeNotification
+            - ConfigurationItemChangeNotification
+          configRuleName:
+            - autotagging-required-tags-rule
+          newEvaluationResult:
+            complianceType:
+              - NON_COMPLIANT
+      State: ENABLED
+  EventbridgesqsinvokeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Action: sts:AssumeRole   
+            # Condition:
+            #   StringEquals:
+            #     # aws:SourceAccount: '732822331298'
+            #     aws:SourceAccount: ${AWS::AccountId} 
+            #     aws:SourceArn: arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/config-autotagging-remediation-rule
+      Policies:
+        - PolicyName: Eventbridgesqsinvokepolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sqs:SendMessage
+                Resource:
+                  # - !Sub arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:config-autotagging-remediation-queue
+                  - !Sub arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:${RemediationQueue}
+  # ConfigRuleRemediationTarget:
+  #   Type: AWS::Events::Rule
+  #   Properties:
+  #     # Rule: !Ref ConfigRuleRemediationRule
+  #     Arn: !GetAtt RemediationQueue.Arn
+  #     Id: SendToSQS
+
+  LambdaRemediationFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.lambda_handler
+      Role: !GetAtt LambdaRemediationRole.Arn
+      FunctionName: config-autotagging-rule-remediation
+      Runtime: python3.12
+      MemorySize: 128
+      Timeout: 300
+      DeadLetterConfig:
+        TargetArn: !GetAtt RemediationDLQ.Arn
+      Code:
+        # S3Bucket: !Ref LambdaCodeBucket
+        # S3Key: !Ref LambdaCodeKey
+        ZipFile: |
+          import json
+          import boto3
+          from datetime import datetime, timezone
+          
+          ssm = boto3.client('ssm')
+          config = boto3.client('config')
+          tagging = boto3.client('resourcegroupstaggingapi')
+          
+          # Hardcoded mapping of unsupported services to fallback handler functions
+          unsupported_services = {
+              "AWS::Events::Rule": "validate_and_apply_tags_eventbridge"
+              # Add more unsupported resource types if needed
+          }
+          
+          def lambda_handler(event, context):
+              print("Received event:", json.dumps(event))
+          
+              for record in event['Records']:
+                  # Parse the SQS message body, which contains the original EventBridge event
+                  message_body = json.loads(record['body'])
+          
+                  # Extract details from EventBridge event
+                  detail = message_body.get('detail', {})
+                  resource_id = detail.get('resourceId')
+                  resource_type = detail.get('resourceType')
+          
+                  if not resource_id or not resource_type:
+                      print("Missing resourceId or resourceType in event detail. Skipping record.")
+                      continue
+          
+                  print(f"Processing resource: '{resource_id}' of type '{resource_type}'")
+          
+                  # Get configuration item from AWS Config
+                  config_item = get_config_item(resource_id, resource_type)
+          
+                  # Fetch required tags from SSM Parameter Store
+                  required_tags = get_required_tags()
+          
+                  # Check if resource type is supported by Tagging API
+                  if resource_type not in unsupported_services:
+                      validate_and_apply_tags_with_tagging_api(config_item, required_tags)
+                  else:
+                      # Use fallback handler for unsupported services
+                      handler_func = globals().get(unsupported_services[resource_type])
+                      if handler_func:
+                          handler_func(config_item, required_tags)
+                      else:
+                          print(f"No fallback function defined for {resource_type}")
+          
+          def get_config_item(resource_id, resource_type):
+              response = config.get_resource_config_history(
+                  resourceType=resource_type,
+                  resourceId=resource_id,
+                  limit=1
+              )
+              return response['configurationItems'][0]
+          
+          def get_required_tags():
+              param_names = [
+                  "ApplicationName",
+                  "ApplicationOwner",
+                  "BusinessUnit",
+                  "Environment",
+                  "ImpactArea",
+                  "SupportOwner"
+              ]
+          
+              required_tags = {}
+              for name in param_names:
+                  try:
+                      param = ssm.get_parameter(Name=name)
+                      required_tags[name] = param['Parameter']['Value']
+                  except Exception as e:
+                      print(f"Error retrieving parameter '{name}': {str(e)}")
+              return required_tags
+          
+          def validate_and_apply_tags_with_tagging_api(config_item, required_tags):
+              resource_arn = config_item['arn']
+              current_tags = config_item.get('tags', {})
+          
+              print("Current tags:", current_tags)
+          
+              missing_tags = {k: v for k, v in required_tags.items() if k not in current_tags or current_tags[k] != v}
+              if not missing_tags:
+                  print("All required tags already present. Skipping.")
+                  return
+          
+              # Add autotagging timestamp
+              updated_tags = {**current_tags, **missing_tags}
+              updated_tags['autotagging-timestamp'] = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')
+          
+              tagging.tag_resources(
+                  ResourceARNList=[resource_arn],
+                  Tags=updated_tags
+              )
+              print(f"Applied tags to {resource_arn}: {missing_tags}")
+          
+          def validate_and_apply_tags_eventbridge(config_item, required_tags):
+              eventbridge = boto3.client('events')
+              resource_arn = config_item['arn']
+          
+              try:
+                  response = eventbridge.list_tags_for_resource(ResourceARN=resource_arn)
+                  current_tags = {tag['Key']: tag['Value'] for tag in response.get('Tags', [])}
+              except Exception as e:
+                  print(f"Error fetching tags from EventBridge: {e}")
+                  current_tags = {}
+          
+              missing_tags = {k: v for k, v in required_tags.items() if k not in current_tags or current_tags[k] != v}
+              if not missing_tags:
+                  print("All required tags already present. Skipping.")
+                  return
+          
+              updated_tags = [ {'Key': k, 'Value': v} for k, v in {**current_tags, **missing_tags}.items() ]
+          
+              eventbridge.tag_resource(
+                  ResourceARN=resource_arn,
+                  Tags=updated_tags
+              )
+              print(f"Applied tags via EventBridge to {resource_arn}: {missing_tags}")
+  LambdaRemediationEventSourceMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 5
+      EventSourceArn: !GetAtt RemediationQueue.Arn
+      FunctionName: !Ref LambdaRemediationFunction
+      MaximumBatchingWindowInSeconds: 30
+      Enabled: true
+
+  LambdaRemediationRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - arn:aws:iam::aws:policy/ResourceGroupsTaggingAPITagUntagSupportedResources
+        - arn:aws:iam::aws:policy/AmazonSQSFullAccess
+      Path: /  
+      Policies:
+        - PolicyName: ConfigRemediationPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ssm:GetParameter
+                  - ssm:GetParameters
+                  - ssm:GetParametersByPath
+                Resource: 
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:ApplicationName/*,
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:ApplicationOwner/*,
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:BusinessUnit/*,
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:ImapctArea/*,
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:Support/*,
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:Environment/*,
+              - Effect: Allow
+                Action:
+                  - config:GetResourceConfigHistory
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - events:ListTagsForResource
+                  - events:TagResource
+                Resource: !Sub arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/*
+              - Effect: Allow
+                Action:
+                  - sqs:ReceiveMessage
+                  - sqs:DeleteMessage
+                  - sqs:GetQueueAttributes
+                Resource: !GetAtt RemediationDLQ.Arn
+ 
