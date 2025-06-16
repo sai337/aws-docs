@@ -1,0 +1,120 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  Glue and Athena resources for cost anomaly data analysis in Account 2
+
+Parameters:
+  CostAnomalyDataBucketName:
+    Type: String
+    Description: "S3 bucket where cost anomaly data is replicated"
+
+Resources:
+
+  # Glue IAM Role for Crawler
+  GlueServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: GlueServiceRole-CostAnomalyCrawler
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - glue.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: GlueCrawlerS3Access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:DeleteObject
+                  - s3:ListBucket
+                Resource:
+                  - !Sub "arn:aws:s3:::${CostAnomalyDataBucketName}"
+                  - !Sub "arn:aws:s3:::${CostAnomalyDataBucketName}/*"
+              - Effect: Allow
+                Action:
+                  - glue:CreateTable
+                  - glue:UpdateTable
+                  - glue:GetTable
+                  - glue:GetTables
+                  - glue:CreateDatabase
+                  - glue:GetDatabase
+                  - glue:GetDatabases
+                  - glue:UpdateDatabase
+                Resource: "*"
+
+  # Glue Database for cost anomaly data
+  CostAnomalyGlueDatabase:
+    Type: AWS::Glue::Database
+    Properties:
+      CatalogId: !Ref "AWS::AccountId"
+      DatabaseInput:
+        Name: cost_anomaly_db
+        Description: "Glue database for cost anomaly detection data"
+
+  # Glue Crawler to scan cost anomaly data in S3
+  CostAnomalyGlueCrawler:
+    Type: AWS::Glue::Crawler
+    Properties:
+      Name: cost-anomaly-data-crawler
+      Role: !GetAtt GlueServiceRole.Arn
+      DatabaseName: !Ref CostAnomalyGlueDatabase
+      Description: "Crawler to catalog cost anomaly data from S3"
+      Targets:
+        S3Targets:
+          - Path: !Sub "s3://${CostAnomalyDataBucketName}/cost-anomaly-data/"
+      SchemaChangePolicy:
+        UpdateBehavior: UPDATE_IN_DATABASE
+        DeleteBehavior: DELETE_FROM_DATABASE
+      Schedule:
+        ScheduleExpression: "cron(0 12 * * ? *)" # Daily at 12 UTC - adjust as needed
+
+  # Athena Workgroup (optional)
+  AthenaWorkGroup:
+    Type: AWS::Athena::WorkGroup
+    Properties:
+      Name: CostAnomalyWorkGroup
+      Description: "Workgroup for cost anomaly Athena queries"
+      RecursiveDeleteOption: true
+      State: ENABLED
+      WorkGroupConfiguration:
+        EnforceWorkGroupConfiguration: true
+        PublishCloudWatchMetricsEnabled: true
+        BytesScannedCutoffPerQuery: 1000000000  # 1GB limit
+        ResultConfiguration:
+          OutputLocation: !Sub "s3://${CostAnomalyDataBucketName}/athena-results/"
+
+  # Athena IAM Role for querying (if needed)
+  AthenaQueryRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: AthenaQueryRole-CostAnomaly
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - athena.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: AthenaQueryS3Access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:ListBucket
+                Resource:
+                  - !Sub "arn:aws:s3:::${CostAnomalyDataBucketName}"
+                  - !Sub "arn:aws:s3:::${CostAnomalyDataBucketName}/*"
