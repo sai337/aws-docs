@@ -1,0 +1,70 @@
+can you explain this part, how its finding the expected or actual spend ?
+
+ChatGPT said:
+Absolutely — this part is key to understanding how AWS Cost Anomaly Detection works behind the scenes.
+
+💡 How AWS determines Expected Spend vs Actual Spend for anomaly detection
+When you create an Anomaly Monitor, AWS automatically starts modeling your historical cost behavior using machine learning. Here’s what happens:
+
+📊 1. Expected Spend (Baseline)
+AWS Cost Anomaly Detection builds a baseline model of your spending based on:
+
+Your previous daily spend data (typically 30–90 days).
+
+Trends and seasonality in your usage.
+
+Past spikes and dips — these are learned and excluded from the normal trend.
+
+So, the expected spend is a machine-learned estimate of what your cost should have been for a specific day or period, based on prior patterns.
+
+✅ It's dynamic and updates as your usage changes over time.
+
+💸 2. Actual Spend
+This is your real cost for a specific service, account, or usage type on that day — pulled from:
+
+AWS Cost Explorer / Billing service (which reports actual cost daily).
+
+Uses detailed billing data (including usage, rates, discounts, etc.).
+
+🔍 3. Anomaly is flagged when:
+Actual Spend > Expected Spend + Threshold
+
+If AWS detects that your actual spend is significantly higher than expected — and not explainable by normal variance — it flags that as an anomaly.
+
+The detection is:
+
+Per monitor dimension (e.g., per service or per account).
+
+Daily granularity.
+
+Detected after the day's billing closes (~1 day delay).
+
+🧠 Example:
+Let’s say you have a monitor set on Service = Amazon S3. Here’s a simplified flow:
+
+Date	Expected Spend	Actual Spend	Anomaly?
+June 10	$4.80	$4.95	❌ No
+June 11	$4.85	$5.05	❌ No
+June 12	$4.90	$25.00	✅ Yes
+
+AWS will report:
+
+json
+Copy
+Edit
+{
+  "AnomalyId": "xyz",
+  "AnomalyStartDate": "2025-06-12",
+  "Impact": {
+    "TotalExpectedSpend": 4.90,
+    "TotalActualSpend": 25.00,
+    "TotalImpact": 20.10,
+    "MaxImpact": 20.10,
+    "TotalImpactPercentage": 410%
+  }
+}
+✅ Summary
+Term	Meaning
+Expected Spend	ML-estimated normal spend based on historical cost patterns
+Actual Spend	Real AWS cost from billing on that day
+Anomaly	Detected when actual spend greatly exceeds expected (above threshold)
